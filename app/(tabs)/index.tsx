@@ -1,75 +1,149 @@
-import { Image } from 'expo-image';
-import { Platform, StyleSheet } from 'react-native';
+import { ThemedText } from "@/components/ThemedText";
+import { ThemedTextInput } from "@/components/ThemedTextInput";
+import { useThemeColors } from "@/hooks/useThemeColors";
+import { useRouter } from "expo-router";
+import React, { useState } from "react";
+import { Image, Platform, SafeAreaView, StatusBar, StyleSheet, TouchableOpacity, View } from "react-native";
 
-import { HelloWave } from '@/components/HelloWave';
-import ParallaxScrollView from '@/components/ParallaxScrollView';
-import { ThemedText } from '@/components/ThemedText';
-import { ThemedView } from '@/components/ThemedView';
+export default function Index() {
 
-export default function HomeScreen() {
+  const router = useRouter();
+
+  const [user, setUser] = useState("");
+  const [pass, setPass] = useState("");
+  
+  const colors = useThemeColors();
+  
+  const styles = StyleSheet.create({
+
+    container: {
+
+      flex: 1,
+      paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0, //Force l'espace avec les barres d'informatioins de l'appareil
+
+      padding: "10%",
+      backgroundColor: colors["background"],
+      justifyContent: "center",
+      alignItems: "center"
+
+    },
+
+    logoView: {
+
+      flex: 1/2,
+      justifyContent: "center",
+
+    },
+
+    logo: {
+
+      width: 350,
+      height: 350
+
+    },
+
+    formContainer: {
+
+      flex: 1/3,
+      width: "100%",
+
+    },
+
+    form: {
+
+      width: '100%',
+      padding: 20,
+      marginBottom: 30,
+      justifyContent: "space-between",
+      borderRadius: 20,
+      backgroundColor: colors["background3"],
+
+    },
+
+    input: {
+
+      width: "100%",
+      borderBottomWidth: 1,
+      borderBottomColor: '#fff',
+      marginBottom: 20,
+
+    },
+
+    button: {
+
+      backgroundColor: colors["contrasts"],
+      borderRadius: 13,
+      marginTop: 20,
+      padding: 10,
+      alignItems: "center"
+
+    },
+
+  });
+
   return (
-    <ParallaxScrollView
-      headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
-      headerImage={
-        <Image
-          source={require('@/assets/images/partial-react-logo.png')}
-          style={styles.reactLogo}
+
+    <SafeAreaView style={styles.container}>
+
+      <View style={styles.logoView}>
+
+        <Image 
+
+          style={styles.logo}
+          source={require("@/assets/images/logo_entreprise.png")}
+        
         />
-      }>
-      <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">Welcome!</ThemedText>
-        <HelloWave />
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 1: Try it</ThemedText>
-        <ThemedText>
-          Edit <ThemedText type="defaultSemiBold">app/(tabs)/index.tsx</ThemedText> to see changes.
-          Press{' '}
-          <ThemedText type="defaultSemiBold">
-            {Platform.select({
-              ios: 'cmd + d',
-              android: 'cmd + m',
-              web: 'F12',
-            })}
-          </ThemedText>{' '}
-          to open developer tools.
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 2: Explore</ThemedText>
-        <ThemedText>
-          {`Tap the Explore tab to learn more about what's included in this starter app.`}
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 3: Get a fresh start</ThemedText>
-        <ThemedText>
-          {`When you're ready, run `}
-          <ThemedText type="defaultSemiBold">npm run reset-project</ThemedText> to get a fresh{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> directory. This will move the current{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> to{' '}
-          <ThemedText type="defaultSemiBold">app-example</ThemedText>.
-        </ThemedText>
-      </ThemedView>
-    </ParallaxScrollView>
+
+      </View>
+
+      <View style={styles.formContainer}>
+
+        <View style={styles.form}>
+
+          <ThemedTextInput
+
+            style={styles.input}
+            variant="paragraphPopup"
+            placeholder="Utilisateur"
+            placeholderTextColor={colors["subtitlesParags"]}
+            color="titlesVisuals"
+            value={user}
+            onChangeText={setUser}
+
+          />
+
+          <ThemedTextInput
+
+            style={styles.input}
+            variant="paragraphPopup"
+            placeholder="Mot de passe"
+            placeholderTextColor={colors["subtitlesParags"]}
+            color="titlesVisuals"
+            secureTextEntry
+            value={pass}
+            onChangeText={setPass}
+
+          />
+
+        </View>
+
+        <TouchableOpacity style={styles.button} onPress={() => {
+          
+          if (user === "test" && pass === "test1234") {
+
+            router.push("/home");
+            
+          }
+
+        }}>
+
+          <ThemedText variant="specialElementsPopup" color="background">Se connecter</ThemedText>
+
+        </TouchableOpacity>
+
+      </View>
+
+    </SafeAreaView>
+
   );
 }
-
-const styles = StyleSheet.create({
-  titleContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 8,
-  },
-  stepContainer: {
-    gap: 8,
-    marginBottom: 8,
-  },
-  reactLogo: {
-    height: 178,
-    width: 290,
-    bottom: 0,
-    left: 0,
-    position: 'absolute',
-  },
-});

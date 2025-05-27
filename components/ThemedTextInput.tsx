@@ -1,7 +1,8 @@
 
 import { Colors } from "@/constants/Colors"
 import { useThemeColors } from "@/hooks/useThemeColors"
-import { StyleSheet, Text, TextProps } from "react-native"
+import React from "react"
+import { StyleSheet, TextInput, TextInputProps } from "react-native"
 
 const styles = StyleSheet.create({
 
@@ -73,18 +74,21 @@ const styles = StyleSheet.create({
 })
 
 //On importe les types de texts par défaut de réact native et on ajoute les notres
-type Props = TextProps & {
+type Props = TextInputProps & {
 
 	variant?: keyof typeof styles,
 	color?: keyof typeof Colors["dark"]
 
 }
 
-export function ThemedText ({variant, color, style, ...rest}: Props){
+export const ThemedTextInput = React.forwardRef<TextInput, Props>(
+	({variant, color, style, ...rest}, ref) => {
 
 	const colors = useThemeColors();
 
 	//On retourne tout les autres paramètres qu'on ne touche pas dans la balise.
 	//Pas tout tout compris
-	return <Text style={[styles[variant ?? "paragraph"], {color: colors[color ?? "subtitlesParags"]}, style]} {...rest}/> 
-}
+	return ( <TextInput ref={ref} style={[styles[variant ?? "paragraph"], {color: colors[color ?? "subtitlesParags"]}, style]} {...rest}/> );
+});
+
+ThemedTextInput.displayName = "ThemedTextInput";
