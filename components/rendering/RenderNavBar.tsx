@@ -1,9 +1,8 @@
 import { useThemeColors } from '@/hooks/useThemeColors';
-import { Feather } from '@expo/vector-icons';
-import React, { useRef } from 'react';
-import { StyleSheet, TextInput, TouchableOpacity, View } from 'react-native';
+import { router } from 'expo-router';
+import React from 'react';
+import { StyleSheet, View } from 'react-native';
 import { ThemedText } from '../ThemedText';
-import { ThemedTextInput } from '../ThemedTextInput';
 
 type RenderNavBarProps = {
 
@@ -14,17 +13,17 @@ type RenderNavBarProps = {
 export default function RenderNavBar({state, setState}: RenderNavBarProps) {
 
 	const colors = useThemeColors();
-	const inputRef = useRef<TextInput>(null); //Pour le focus d'input grace à une icone
+	//const inputRef = useRef<TextInput>(null); //Pour le focus d'input grace à une icone
 
-	function focusSearchInput(){
+	//function focusSearchInput(){
 
-		if (inputRef.current) {
+	//	if (inputRef.current) {
 
-			inputRef.current.focus();
+	//		inputRef.current.focus();
 
-		}
+	//	}
 
-	};
+	//};
 
 	const styles = StyleSheet.create({
 
@@ -76,7 +75,7 @@ export default function RenderNavBar({state, setState}: RenderNavBarProps) {
 		
 			<ThemedText variant='navbarHeader' color={state ? "background" : "contrasts"} style={{marginRight: 10}}>Accueil</ThemedText>
 
-			<TouchableOpacity onPress={focusSearchInput}>
+			{/*<TouchableOpacity onPress={focusSearchInput}>
 
 				<Feather name="search" size={30} color={state ? colors["background"] : colors["contrasts"]} style={{marginLeft: 8, marginRight: 8}} />
 
@@ -88,13 +87,17 @@ export default function RenderNavBar({state, setState}: RenderNavBarProps) {
 				placeholder=""
 				placeholderTextColor="#aaa"
 				multiline={false}
-			/>
+			/>*/}
 
 		</View>
 
 		<View style={styles.headerRight}>
 		
-			<ThemedText variant='navbarHeader' color={state ? "background" : "titlesVisuals"}>Nom compte</ThemedText>
+			<ThemedText variant='navbarHeader' color={state ? "background" : "titlesVisuals"} onPress={() => {
+
+				router.push("/");
+
+			}}>Déconnexion</ThemedText>
 
 		</View>
 

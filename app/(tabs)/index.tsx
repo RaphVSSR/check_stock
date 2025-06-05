@@ -1,5 +1,4 @@
 import { ThemedText } from "@/components/ThemedText";
-import { ThemedTextInput } from "@/components/ThemedTextInput";
 import { useThemeColors } from "@/hooks/useThemeColors";
 import { useRouter } from "expo-router";
 import React, { useState } from "react";
@@ -28,9 +27,18 @@ export default function Index() {
 
     },
 
+    titleContainer: {
+
+      width: "100%",
+      justifyContent: "center",
+      alignItems: "center",
+      marginBottom: 30,
+
+    },
+
     logoView: {
 
-      flex: 1/2,
+      flex: 1/3,
       justifyContent: "center",
 
     },
@@ -46,6 +54,8 @@ export default function Index() {
 
       flex: 1/3,
       width: "100%",
+      justifyContent: "space-around",
+      //backgroundColor:"white",
 
     },
 
@@ -98,7 +108,14 @@ export default function Index() {
 
       <View style={styles.formContainer}>
 
-        <View style={styles.form}>
+        <View style={styles.titleContainer}>
+
+          <ThemedText variant="title" color="titlesVisuals">Check&Stock</ThemedText>
+          <ThemedText variant="paragraph" color="subtitlesParags">Gestionnaire d&apos;inventaire professionnel</ThemedText>
+
+        </View>
+
+        {/*<View style={styles.form}>
 
           <ThemedTextInput
 
@@ -125,17 +142,9 @@ export default function Index() {
 
           />
 
-        </View>
+        </View>*/}
 
-        <TouchableOpacity style={styles.button} onPress={() => {
-          
-          if (user === "test" && pass === "test1234") {
-
-            router.push("/home");
-            
-          }
-
-        }}>
+        <TouchableOpacity style={styles.button} onPress={() => { router.push("/home"); }}>
 
           <ThemedText variant="specialElementsPopup" color="background">Se connecter</ThemedText>
 

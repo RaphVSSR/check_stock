@@ -1,38 +1,35 @@
-import { useThemeColors } from "@/hooks/useThemeColors"
-import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons"
-import { useRouter } from "expo-router"
-import React, { useEffect, useState } from "react"
-import { FlatList, StyleSheet, TouchableOpacity, View } from "react-native"
-import { ThemedText } from "../ThemedText"
+import { Category } from '@/constants/types';
+import { useThemeColors } from "@/hooks/useThemeColors";
+import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
+import { useRouter } from "expo-router";
+import { useSQLiteContext } from "expo-sqlite";
+import React, { useEffect, useState } from "react";
+import { FlatList, StyleSheet, TouchableOpacity, View } from "react-native";
+import { ThemedText } from "../ThemedText";
+
+import dataAccess from '@/services/database/dataAccess';
+import { BlurView } from 'expo-blur';
+import { ImageBackground } from 'expo-image';
+import { CategoryStock } from '../CategoryStock';
+
 
 type RenderingProps = {
 
 	state: boolean,
 	onEmptyChange: React.Dispatch<React.SetStateAction<boolean>>,
 	setAddModalVisibility: React.Dispatch<React.SetStateAction<boolean>>,
+	setDelCategoryModalVisibility: React.Dispatch<React.SetStateAction<boolean>>,
+	setModCategoryModalVisibility: React.Dispatch<React.SetStateAction<boolean>>,
+	setCategoryActionName: React.Dispatch<React.SetStateAction<string|null>>,
 }
 
-type categoriesProps = {
 
-	name?: string,
-	infos?: string,
-	isFooter?: boolean,
-
-}
-
-const categoriesDefault: categoriesProps[] = [
-
-
-	{name: "categorie 0", infos: "Nb références"},
-	{isFooter: true}
-
-]
-
-
-export default function RenderCategories({state, onEmptyChange, setAddModalVisibility}: RenderingProps){
+export default function RenderCategories({state, onEmptyChange, setAddModalVisibility, setDelCategoryModalVisibility, setModCategoryModalVisibility, setCategoryActionName}: RenderingProps){
 
 	const router = useRouter();
 	const colors = useThemeColors();
+
+	const db = useSQLiteContext();
 
 	const styles = StyleSheet.create({
 
@@ -59,13 +56,39 @@ export default function RenderCategories({state, onEmptyChange, setAddModalVisib
 
 			width: 225,
 			height: 230,
-			paddingBottom: "3%",
 			backgroundColor: colors["background3"],
 			borderRadius: 20,
-			justifyContent: "flex-end",
-			alignItems: "center",
 			marginRight: "3%",
 			marginBottom: 20,
+			overflow: "hidden",
+
+		},
+
+		imageCate: {
+
+			flex: 1,
+			width: "100%",
+			height: "100%",
+			justifyContent: "flex-end",
+
+		},
+
+		iconCate: {
+
+			flex: 1,
+			width: "100%",
+			height: "100%",
+			paddingTop: "5%",
+			alignItems: "center",
+			justifyContent: "center",
+		},
+
+		blurContainer: {
+
+			width: "100%",
+			paddingVertical: "3%",
+			
+			alignItems: "center",
 
 		},
 
@@ -105,13 +128,28 @@ export default function RenderCategories({state, onEmptyChange, setAddModalVisib
 
 	})
 
-	const [categories, setCategories] = useState(categoriesDefault)
+	const [categories, setCategories] = useState<null | Category[]>(null);
+	//const [forceRefresh, setForceRefresh] = useState(false);
+
 
 	useEffect(() => {
+		
+		dataAccess.categories.readCategories(db)
+		.then((rawCategories) => {
+			
+			let categoriesAssambled = rawCategories && rawCategories.length > 0
+				? [...rawCategories, { isFooter: true }]
+				: [{ isFooter: true }];
+				
+			
+			setCategories(categoriesAssambled);
 
-		onEmptyChange(categories.length <= 1);
+		})
+		.catch((error) => console.error(error));
 
-	}, [categories, onEmptyChange])
+		onEmptyChange(!!categories ? categories!.length<=1 : true);
+
+	}, [db, categories, onEmptyChange])
 
 
 	return (
@@ -123,7 +161,7 @@ export default function RenderCategories({state, onEmptyChange, setAddModalVisib
 			keyExtractor={(item, index) => index.toString()}
 			renderItem={({item}) => (
 
-				(item.isFooter && (categories.length === 1)) || (item.isFooter && ((categories.length > 1) && state)) ?
+				("isFooter" in item) && categories!.length === 1 || ( categories!.length > 1 && ("isFooter" in item) && state) ?
 
 					<TouchableOpacity style={styles.addBtn} onPress={() => {setAddModalVisibility(true)}}>
 
@@ -131,32 +169,59 @@ export default function RenderCategories({state, onEmptyChange, setAddModalVisib
 
 					</TouchableOpacity>
 
-				: !item.isFooter ?
+				: !("isFooter" in item) ?
 				
 					<TouchableOpacity style={styles.categoryCard} onPress={() => {router.push("/products")}}>
 
-						<ThemedText variant="cardTitle" color="titlesVisuals">{item.name}</ThemedText>
-						<ThemedText variant="cardSubtitle" color="titlesVisuals">{item.infos}</ThemedText>
+						<ImageBackground source={item.image_src ? { uri: item.image_src} : undefined} style={styles.imageCate}>
 
-						{state && (
+							{!item.image_src && (
 
-							<View style={styles.optionsMenu}>
+								<View style={styles.iconCate}>
 
-								<TouchableOpacity style={styles.modBtn}>
+									<Ionicons name="image-outline" size={60} color={colors["subtitlesParags"]}/>
 
-									<MaterialCommunityIcons name="pencil" size={35} color="#fff"/>
+								</View>
 
-								</TouchableOpacity>
-								<TouchableOpacity style={styles.delBtn}>
+							)}
 
-									<MaterialCommunityIcons name="trash-can-outline" size={35} color="#fff"/>
+							<BlurView intensity={15} tint="dark" style={styles.blurContainer}>
+								
+								<ThemedText variant="cardTitle" color="titlesVisuals">{item.name}</ThemedText>
 
-								</TouchableOpacity>
+								<CategoryStock db={db} categoryName={item.name}/>
 
-							</View>
+								{state && (
 
-						)}
+									<View style={styles.optionsMenu}>
 
+										<TouchableOpacity style={styles.modBtn} onPress={() => {
+
+											setCategoryActionName(item.name);
+											setModCategoryModalVisibility(true);
+
+										}}>
+
+											<MaterialCommunityIcons name="pencil" size={35} color="#fff"/>
+
+										</TouchableOpacity>
+										<TouchableOpacity style={styles.delBtn} onPress={() => {
+
+											setCategoryActionName(item.name);
+											setDelCategoryModalVisibility(true);
+
+										}}>
+
+											<MaterialCommunityIcons name="trash-can-outline" size={35} color="#fff"/>
+
+										</TouchableOpacity>
+
+									</View>
+
+								)}
+							</BlurView>
+
+						</ImageBackground>
 					</TouchableOpacity>
 				: <></>
 			)}

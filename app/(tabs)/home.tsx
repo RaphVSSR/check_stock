@@ -1,5 +1,7 @@
 
-import RenderAddCategoryModal from '@/components/rendering/modals/RenderAddCategoryModal';
+import RenderAddCategoryModal from '@/components/rendering/modals/categories/RenderAddCategoryModal';
+import RenderDelCategoryModal from '@/components/rendering/modals/categories/RenderDelCategoryModal';
+import RenderModCategoryModal from '@/components/rendering/modals/categories/RenderModCategoryModal';
 import RenderActionBtn from '@/components/rendering/RenderActionBtn';
 import RenderCategories from '@/components/rendering/RenderCategories';
 import RenderNavBar from '@/components/rendering/RenderNavBar';
@@ -15,7 +17,11 @@ export default function Home(){
 	const colors = useThemeColors();
 	const [actionBtnState, setActionBtnState] = useState(globalStates.actionBtnState);
 	const [emptyCategories, setEmptyCategories] = useState(true);
-	const [addCategoryModalVisibility, setCategoryModalVisibility] = useState(false)
+
+	const [addCategoryModalVisibility, setAddCategoryModalVisibility] = useState(false);
+	const [delCategoryModalVisibility, setDelCategoryModalVisibility] = useState(false);
+	const [modCategoryModalVisibility, setModCategoryModalVisibility] = useState(false);
+	const [categoryActionName, setCategoryActionName] = useState<string|null>(null);
 
 	const styles = StyleSheet.create({
 
@@ -57,7 +63,11 @@ export default function Home(){
 
 		<RenderNavBar state={actionBtnState} setState={setActionBtnState}/>
 
-		<RenderAddCategoryModal visibility={addCategoryModalVisibility} setModalVisibility={setCategoryModalVisibility}/>
+		<RenderModCategoryModal visibility={modCategoryModalVisibility} setModalVisibility={setModCategoryModalVisibility} categoryActionName={categoryActionName as string}/>
+
+		<RenderDelCategoryModal visibility={delCategoryModalVisibility} setModalVisibility={setDelCategoryModalVisibility} categoryName={categoryActionName as string}/>
+
+		<RenderAddCategoryModal visibility={addCategoryModalVisibility} setModalVisibility={setAddCategoryModalVisibility}/>
 
 		<ImageBackground
 		
@@ -68,8 +78,12 @@ export default function Home(){
 			
 		>
 
-			<RenderCategories state={actionBtnState} onEmptyChange={setEmptyCategories} setAddModalVisibility={setCategoryModalVisibility}/>
-
+			<RenderCategories 
+				state={actionBtnState} 
+				onEmptyChange={setEmptyCategories} 
+				setAddModalVisibility={setAddCategoryModalVisibility} setDelCategoryModalVisibility={setDelCategoryModalVisibility} 
+				setModCategoryModalVisibility={setModCategoryModalVisibility}setCategoryActionName={setCategoryActionName}/>
+			
 		</ImageBackground>
 		
 		<RenderActionBtn state={actionBtnState} setState={setActionBtnState}/>
