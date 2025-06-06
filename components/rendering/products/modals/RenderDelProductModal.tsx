@@ -1,54 +1,31 @@
 
 import { ThemedText } from '@/components/ThemedText';
 import { useThemeColors } from '@/hooks/useThemeColors';
-import React from 'react';
-import { Modal, Pressable, StyleSheet, TouchableOpacity, TouchableWithoutFeedback, View } from 'react-native';
+import React, { useState } from 'react';
+import { Modal, Pressable, TouchableOpacity, TouchableWithoutFeedback, View } from 'react-native';
 
+import { delProductModal } from '@/constants/styles';
+import { Product } from '@/constants/types';
 import dataAcess from '@/services/database/dataAccess';
+import global from "@/utils/global";
 import { useSQLiteContext } from 'expo-sqlite';
 
 type RenderingProps = {
 
 	visibility: boolean,
 	setModalVisibility: React.Dispatch<React.SetStateAction<boolean>>,
-	categoryName: string,
+	productName: string,
+	setForceRefresh: React.Dispatch<React.SetStateAction<boolean>>,
 }
 
-export default function RenderDelCategoryModal({ visibility, setModalVisibility, categoryName }: RenderingProps) {
+export default function RenderDelProductModal({ visibility, setModalVisibility, productName, setForceRefresh }: RenderingProps) {
 	
 	const colors = useThemeColors();
 	
 	const db = useSQLiteContext();
 
-	const styles = StyleSheet.create({
-		
-		modal: {
-
-			flex: 1,
-			backgroundColor: colors["backgroundPopup"],
-			alignItems: "center",
-			justifyContent: "center",
-
-		},
-
-		modalContainer: {
-
-			width: "70%",
-			padding: 30,
-			alignItems: "center",
-			backgroundColor: colors["background2"],
-			borderRadius: 26
-
-		},
-
-		delButton: {
-			width: '100%',
-			paddingVertical: 12,
-			alignItems: 'center',
-			backgroundColor: colors["contrasts"],
-			borderRadius: 20,
-		},
-	});
+	const styles = delProductModal(colors);
+	const [sendingProducts, setSendingProducts] = useState<Product[] | null>(null);
 
 	return (
 
@@ -67,12 +44,18 @@ export default function RenderDelCategoryModal({ visibility, setModalVisibility,
 				<TouchableWithoutFeedback>
 					<View style={styles.modalContainer}>
 
-						<ThemedText style={{marginBottom: "5%", textAlign: "center"}} variant='popupTitle' color='titlesVisuals'>Voulez-vous vraiment supprimer la catégorie
-						&quot;{categoryName}&quot; ?</ThemedText>
+						<ThemedText style={{marginBottom: "5%", textAlign: "center"}} variant='popupTitle' color='titlesVisuals'>Voulez-vous vraiment supprimer le produit
+						&quot;{productName}&quot; ?</ThemedText>
 						<TouchableOpacity style={styles.delButton} onPress={async () => {
 
-							dataAcess.categories.deleteCategory(db, categoryName)
-							.then(() => setModalVisibility(false));
+							dataAcess.products.deleteProduct(db, productName)
+							.then(() => {
+								
+								setModalVisibility(false);
+
+								global.forceCountRefresh = true;
+								setForceRefresh(true);
+							});
 
 						}}>
 							<ThemedText variant='specialElementsPopup' color='background' >Supprimer</ThemedText>

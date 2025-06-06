@@ -1,70 +1,98 @@
 
 import RenderActionBtn from '@/components/rendering/RenderActionBtn';
 import RenderNavBar from '@/components/rendering/RenderNavBar';
-import RenderProducts from '@/components/rendering/RenderProducts';
+import RenderProducts from '@/components/rendering/products/RenderProducts';
+import RenderAddProductModal from '@/components/rendering/products/modals/RenderAddProductModal';
+import RenderDelProductModal from '@/components/rendering/products/modals/RenderDelProductModal';
+import RenderModProductModal from '@/components/rendering/products/modals/RenderModProductModal';
+import { basePage } from '@/constants/styles';
 import { useThemeColors } from '@/hooks/useThemeColors';
-import { globalStates } from '@/utils/globalStates';
+import global from '@/utils/global';
 import { ImageBackground } from 'expo-image';
 import { useFocusEffect } from 'expo-router';
 import React, { useState } from 'react';
-import { Platform, SafeAreaView, StatusBar, StyleSheet } from 'react-native';
+import { SafeAreaView } from 'react-native';
 
-export default function Home(){
+export default function Products(){
 
 	const colors = useThemeColors();
-	const [actionBtnState, setActionBtnState] = useState(globalStates.actionBtnState);
-	const [emptyProducts, setEmptyProducts] = useState(true);
 
-	const styles = StyleSheet.create({
+	const [actionBtnState, setActionBtnState] = useState(global.btnState);
+	const [emptyProducts, setEmptyProducts] = useState<boolean | null>(null);
+	const [categoryActionId, setCategoryActionId] = useState<string>(global.activeCategoryId);
+	const [categoryActionName, setCategoryActionName] = useState<string>(global.activeCategoryName);
 
-		container: {
+	const [forceRefresh, setForceRefresh] = useState<boolean>(false);
 
-			flex: 1,
-			paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0, //Force l'espace avec les barres d'informatioins de l'appareil
-		
-			backgroundColor: colors["background"],
-		},
+	const [addProductModalVisibility, setAddProductModalVisibility] = useState(false);
+	const [delProductModalVisibility, setDelProductModalVisibility] = useState(false);
+	const [modProductModalVisibility, setModProductModalVisibility] = useState(false);
+	const [productActionName, setProductActionName] = useState<string|null>(null);
 
-		contentContainer: {
+	const styles = basePage(colors);
 
-			flex: 1,
-			paddingHorizontal: "5%",
-			paddingTop: "2%",
-			backgroundColor: colors["background2"],
 
-		},
-
-	})
-
-	//Synchro l'état du bouton d'action -> parce que le fonctionnement du useState
+	//Synchro l'état du bouton d'action à l'arrivée/retour sur page
 	useFocusEffect(
 
 		React.useCallback(() => {
 
-			setActionBtnState(globalStates.actionBtnState);
+			setActionBtnState(global.btnState);
+			setCategoryActionId(global.activeCategoryId);
 
 		}, [])
 	
 	);
+
 
   return (
 	
 
 	<SafeAreaView style={styles.container}>
 
-		<RenderNavBar state={actionBtnState} setState={setActionBtnState}/>
+		<RenderNavBar state={actionBtnState} setState={setActionBtnState} title={categoryActionName}/>
+
+		<RenderModProductModal 
+
+			visibility={modProductModalVisibility} 
+			setModalVisibility={setModProductModalVisibility} 
+			productActionName={productActionName as string}
+			setForceRefresh={setForceRefresh}/>
+
+		<RenderDelProductModal
+
+			visibility={delProductModalVisibility} 
+			setModalVisibility={setDelProductModalVisibility} 
+			productName={productActionName as string}
+			setForceRefresh={setForceRefresh}/>
+
+		<RenderAddProductModal
+
+			visibility={addProductModalVisibility} 
+			setModalVisibility={setAddProductModalVisibility}
+			setForceRefresh={setForceRefresh}/>
 
 		<ImageBackground
-		
+			
 			style={styles.contentContainer}
-			source={emptyProducts ? require("@/assets/images/panier_produits.png") : null}
-			contentFit='none'
-			imageStyle={{opacity: 0.5, transform: [{scale: 6}]}}
+			source={emptyProducts === true ? require("@/assets/images/panier_produits.png") : undefined}
+			contentFit='contain'
+			imageStyle={{opacity: 0.5}}
 			
 		>
 
-			<RenderProducts state={actionBtnState} onEmptyChange={setEmptyProducts}/>
-
+			<RenderProducts 
+				state={actionBtnState} 
+				onEmptyChange={setEmptyProducts}
+				isEmptyProducts={emptyProducts} 
+				setAddModalVisibility={setAddProductModalVisibility} 
+				setDelProductModalVisibility={setDelProductModalVisibility} 
+				setModProductModalVisibility={setModProductModalVisibility}
+				setProductActionName={setProductActionName}
+				categoryActionId={categoryActionId!}
+				forceRefresh={forceRefresh}
+				setForceRefresh={setForceRefresh}/>
+			
 		</ImageBackground>
 		
 		<RenderActionBtn state={actionBtnState} setState={setActionBtnState}/>

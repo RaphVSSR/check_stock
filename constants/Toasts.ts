@@ -9,7 +9,7 @@ export function showErrorToast(errMessage: string, type: string = "bigError"){
 		position: 'bottom',
 		bottomOffset: 60,
 		autoHide: true,
-		visibilityTime: 5000
+		visibilityTime: 8000
 	});
 
 }

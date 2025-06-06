@@ -1,18 +1,20 @@
 import { ThemedText } from "@/components/ThemedText";
 import { useThemeColors } from "@/hooks/useThemeColors";
-import { useRouter } from "expo-router";
-import React, { useState } from "react";
+import global from "@/utils/global";
+import { useFocusEffect, useRouter } from "expo-router";
+import React from "react";
 import { Image, Platform, SafeAreaView, StatusBar, StyleSheet, TouchableOpacity, View } from "react-native";
+
 
 export default function Index() {
 
   const router = useRouter();
 
-  const [user, setUser] = useState("");
-  const [pass, setPass] = useState("");
-  
+  //const [user, setUser] = useState("");
+  //const [pass, setPass] = useState("");
+
   const colors = useThemeColors();
-  
+
   const styles = StyleSheet.create({
 
     container: {
@@ -90,6 +92,16 @@ export default function Index() {
     },
 
   });
+
+  useFocusEffect(
+
+    React.useCallback(() => {
+
+      global.btnState && (global.btnState = false);
+
+    }, [])
+
+  );
 
   return (
 

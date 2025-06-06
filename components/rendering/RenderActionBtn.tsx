@@ -1,5 +1,5 @@
 import { useThemeColors } from '@/hooks/useThemeColors'
-import { globalStates } from '@/utils/globalStates'
+import global from '@/utils/global'
 import { MaterialIcons } from '@expo/vector-icons'
 import React from 'react'
 import { Dimensions, StyleSheet, TouchableOpacity } from 'react-native'
@@ -47,7 +47,7 @@ export default function RenderActionBtn({state, setState}: RenderActionBtnProps)
 
 	<TouchableOpacity style={ state ? styles.actionBtnActivated : styles.actionBtn} onPress={() => {
 		
-		globalStates.actionBtnState = !state
+		global.btnState = !state
 		setState(!state)
 
 	}}>

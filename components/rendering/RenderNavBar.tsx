@@ -7,10 +7,11 @@ import { ThemedText } from '../ThemedText';
 type RenderNavBarProps = {
 
 	state: boolean,
-	setState: React.Dispatch<React.SetStateAction<boolean>>
+	setState: React.Dispatch<React.SetStateAction<boolean>>,
+	title?: string,
 }
 
-export default function RenderNavBar({state, setState}: RenderNavBarProps) {
+export default function RenderNavBar({state, setState, title = "Accueil"}: RenderNavBarProps) {
 
 	const colors = useThemeColors();
 	//const inputRef = useRef<TextInput>(null); //Pour le focus d'input grace à une icone
@@ -73,7 +74,7 @@ export default function RenderNavBar({state, setState}: RenderNavBarProps) {
 
 		<View style={styles.headerLeft}>
 		
-			<ThemedText variant='navbarHeader' color={state ? "background" : "contrasts"} style={{marginRight: 10}}>Accueil</ThemedText>
+			<ThemedText variant='navbarHeader' color={state ? "background" : "contrasts"} style={{marginRight: 10}}>{title}</ThemedText>
 
 			{/*<TouchableOpacity onPress={focusSearchInput}>
 

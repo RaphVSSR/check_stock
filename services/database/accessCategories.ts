@@ -95,7 +95,7 @@ export async function readCategory(db: SQLite.SQLiteDatabase, name: string): Pro
 export async function countCategory(db: SQLite.SQLiteDatabase, categoryName: string) {
 
 	const stmtCat = await db.prepareAsync(`SELECT id FROM Categories WHERE name = ?`);
-	const stmtProd = await db.prepareAsync(`SELECT COUNT(*) FROM Products WHERE category_id = ?`);
+	const stmtProd = await db.prepareAsync(`SELECT COUNT(*) as count FROM Products WHERE category_id = ?`);
 
 	try {
 		
@@ -114,7 +114,7 @@ export async function countCategory(db: SQLite.SQLiteDatabase, categoryName: str
 		
 			if (error.message.includes("no such column: category_id")){
 
-				return 0;
+				throw new Error(error.message);
 
 			}else{
 

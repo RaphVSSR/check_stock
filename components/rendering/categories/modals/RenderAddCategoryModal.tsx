@@ -5,8 +5,9 @@ import { useThemeColors } from '@/hooks/useThemeColors';
 import { Ionicons } from '@expo/vector-icons';
 import * as ImagePicker from 'expo-image-picker';
 import React, { useState } from 'react';
-import { Image, Modal, Pressable, StyleSheet, TouchableOpacity, TouchableWithoutFeedback, View } from 'react-native';
+import { Image, Modal, Pressable, TouchableOpacity, TouchableWithoutFeedback, View } from 'react-native';
 
+import { addCategoryModal } from '@/constants/styles';
 import { showErrorToast } from '@/constants/Toasts';
 import dataAcess from '@/services/database/dataAccess';
 import { useSQLiteContext } from 'expo-sqlite';
@@ -16,9 +17,11 @@ type RenderingProps = {
 
 	visibility: boolean,
 	setModalVisibility: React.Dispatch<React.SetStateAction<boolean>>,
+	setForceRefresh: React.Dispatch<React.SetStateAction<boolean>>,
+
 }
 
-export default function RenderAddCategoryModal({ visibility, setModalVisibility }: RenderingProps) {
+export default function RenderAddCategoryModal({ visibility, setModalVisibility, setForceRefresh }: RenderingProps) {
 	
 	const colors = useThemeColors();
 	const [categoryName, setCategoryName] = useState<string | undefined>(undefined);
@@ -26,68 +29,7 @@ export default function RenderAddCategoryModal({ visibility, setModalVisibility 
 	
 	const db = useSQLiteContext();
 
-	const styles = StyleSheet.create({
-		
-		modal: {
-
-			flex: 1,
-			backgroundColor: colors["backgroundPopup"],
-			alignItems: "center",
-			justifyContent: "center",
-
-		},
-
-		modalContainer: {
-
-			width: "50%",
-			padding: 30,
-			alignItems: "center",
-			backgroundColor: colors["background2"],
-			borderRadius: 26
-
-		},
-
-		imagePicker: {
-
-			width: "100%",
-			height: 200,
-			marginTop: 20,
-			justifyContent: 'center',
-			alignItems: 'center',
-			borderRadius: 16,
-			backgroundColor: colors["background3"],
-		},
-
-		image: {
-
-			flex: 1,
-			width: "100%",
-			height: "100%",
-			borderRadius: 16,
-		},
-
-		imageText: {
-			color: '#aaa',
-			marginTop: 8,
-			fontSize: 15,
-		},
-
-		input: {
-			width: '100%',
-			color: colors["titlesVisuals"],
-			marginVertical: 40,
-			borderBottomWidth: 2,
-			borderBottomColor: colors["titlesVisuals"],
-		},
-
-		addButton: {
-			width: '100%',
-			paddingVertical: 12,
-			alignItems: 'center',
-			backgroundColor: colors["contrasts"],
-			borderRadius: 20,
-		},
-	});
+	const styles = addCategoryModal(colors);
 
 	const toastConfig = {
 
@@ -171,6 +113,7 @@ export default function RenderAddCategoryModal({ visibility, setModalVisibility 
 								setModalVisibility(false);
 								setImageUri(null);
 								setCategoryName(undefined);
+								setForceRefresh(true);
 
 							})
 							.catch((error) => showErrorToast(error.message));
