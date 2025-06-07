@@ -44,8 +44,12 @@ export default function RenderDelProductModal({ visibility, setModalVisibility, 
 				<TouchableWithoutFeedback>
 					<View style={styles.modalContainer}>
 
-						<ThemedText style={{marginBottom: "5%", textAlign: "center"}} variant='popupTitle' color='titlesVisuals'>Voulez-vous vraiment supprimer le produit
-						&quot;{productName}&quot; ?</ThemedText>
+						<ThemedText style={{marginBottom: "5%", textAlign: "center"}} variant='popupTitle' color='titlesVisuals'>
+							
+							Voulez-vous vraiment supprimer le produit &quot;<ThemedText variant='popupTitle' color='contrasts'>{productName}</ThemedText>&quot; ?
+						
+						</ThemedText>
+
 						<TouchableOpacity style={styles.delButton} onPress={async () => {
 
 							dataAcess.products.deleteProduct(db, productName)
@@ -58,7 +62,7 @@ export default function RenderDelProductModal({ visibility, setModalVisibility, 
 							});
 
 						}}>
-							<ThemedText variant='specialElementsPopup' color='background' >Supprimer</ThemedText>
+							<ThemedText variant='specialElementsPopup' color='background'>Supprimer</ThemedText>
 						</TouchableOpacity>
 
 					</View>

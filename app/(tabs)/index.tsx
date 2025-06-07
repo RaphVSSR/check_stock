@@ -24,8 +24,13 @@ export default function Index() {
 
       padding: "10%",
       backgroundColor: colors["background"],
+    },
+
+    contentWrapper: {
+
+      flex: 1,
       justifyContent: "center",
-      alignItems: "center"
+      alignItems: "center",
 
     },
 
@@ -57,7 +62,6 @@ export default function Index() {
       flex: 1/3,
       width: "100%",
       justifyContent: "space-around",
-      //backgroundColor:"white",
 
     },
 
@@ -107,62 +111,68 @@ export default function Index() {
 
     <SafeAreaView style={styles.container}>
 
-      <View style={styles.logoView}>
+      <View style={styles.contentWrapper}>
 
-        <Image 
+        <View style={styles.logoView}>
 
-          style={styles.logo}
-          source={require("@/assets/images/logo_entreprise.png")}
-        
-        />
+          <Image 
 
-      </View>
-
-      <View style={styles.formContainer}>
-
-        <View style={styles.titleContainer}>
-
-          <ThemedText variant="title" color="titlesVisuals">Check&Stock</ThemedText>
-          <ThemedText variant="paragraph" color="subtitlesParags">Gestionnaire d&apos;inventaire professionnel</ThemedText>
+            style={styles.logo}
+            source={require("@/assets/images/logo_entreprise.png")}
+          
+          />
 
         </View>
 
-        {/*<View style={styles.form}>
+        <View style={styles.formContainer}>
 
-          <ThemedTextInput
+          <View style={styles.titleContainer}>
 
-            style={styles.input}
-            variant="paragraphPopup"
-            placeholder="Utilisateur"
-            placeholderTextColor={colors["subtitlesParags"]}
-            color="titlesVisuals"
-            value={user}
-            onChangeText={setUser}
+            <ThemedText variant="title" color="titlesVisuals">Check&Stock</ThemedText>
+            <ThemedText variant="paragraph" color="subtitlesParags">Gestionnaire d&apos;inventaire professionnel</ThemedText>
 
-          />
+          </View>
 
-          <ThemedTextInput
+          {/*<View style={styles.form}>
 
-            style={styles.input}
-            variant="paragraphPopup"
-            placeholder="Mot de passe"
-            placeholderTextColor={colors["subtitlesParags"]}
-            color="titlesVisuals"
-            secureTextEntry
-            value={pass}
-            onChangeText={setPass}
+            <ThemedTextInput
 
-          />
+              style={styles.input}
+              variant="paragraphPopup"
+              placeholder="Utilisateur"
+              placeholderTextColor={colors["subtitlesParags"]}
+              color="titlesVisuals"
+              value={user}
+              onChangeText={setUser}
 
-        </View>*/}
+            />
 
-        <TouchableOpacity style={styles.button} onPress={() => { router.push("/home"); }}>
+            <ThemedTextInput
 
-          <ThemedText variant="specialElementsPopup" color="background">Se connecter</ThemedText>
+              style={styles.input}
+              variant="paragraphPopup"
+              placeholder="Mot de passe"
+              placeholderTextColor={colors["subtitlesParags"]}
+              color="titlesVisuals"
+              secureTextEntry
+              value={pass}
+              onChangeText={setPass}
 
-        </TouchableOpacity>
+            />
+
+          </View>*/}
+
+          <TouchableOpacity style={styles.button} onPress={() => { router.push("/home"); }}>
+
+            <ThemedText variant="specialElementsPopup" color="background">Se connecter</ThemedText>
+
+          </TouchableOpacity>
+
+        </View>
 
       </View>
+
+      <ThemedText style={{ width: "100%", textAlign: "center", fontSize: 20}} variant="paragraphPopup" color="subtitlesParags">Developped by VASSEUR Raphaël</ThemedText>
 
     </SafeAreaView>
 

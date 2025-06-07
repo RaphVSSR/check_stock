@@ -78,7 +78,6 @@ export const displayListStyles = (colors: any) => StyleSheet.create({
 
 		width: "100%",
 		paddingVertical: "3%",
-		
 		alignItems: "center",
 
 	},
@@ -114,6 +113,29 @@ export const displayListStyles = (colors: any) => StyleSheet.create({
 		backgroundColor: '#232326',
 		borderRadius: 12,
 		padding: 8,
+
+	},
+
+	addProdBtn: {
+
+		width: "40%",
+		alignItems: "center",
+		justifyContent: "center",
+		backgroundColor: colors["contrasts"],
+		borderRadius: 12,
+		paddingVertical: "2%",
+		marginRight: 8,
+
+	},
+
+	remProdBtn: {
+
+		width: "40%",
+		alignItems: "center",
+		justifyContent: "center",
+		backgroundColor: colors["contrasts"],
+		borderRadius: 12,
+		paddingVertical: "2%",
 
 	},
 
@@ -463,6 +485,92 @@ export const delProductModal = (colors: any) => StyleSheet.create({
 	},
 
 	delButton: {
+		width: '100%',
+		paddingVertical: 12,
+		alignItems: 'center',
+		backgroundColor: colors["contrasts"],
+		borderRadius: 20,
+	},
+});
+
+export const setStockProductModal = (colors: any) => StyleSheet.create({
+		
+	modal: {
+
+		flex: 1,
+		backgroundColor: colors["backgroundPopup"],
+		alignItems: "center",
+		justifyContent: "center",
+
+	},
+
+	modalContainer: {
+
+		width: "50%",
+		padding: 30,
+		alignItems: "center",
+		backgroundColor: colors["background2"],
+		borderRadius: 26
+
+	},
+
+	imagePicker: {
+
+		width: "100%",
+		height: 200,
+		marginTop: 20,
+		justifyContent: 'center',
+		alignItems: 'center',
+		borderRadius: 16,
+		backgroundColor: colors["background3"],
+	},
+
+	image: {
+
+		flex: 1,
+		width: "100%",
+		height: "100%",
+		borderRadius: 16,
+	},
+
+	imageText: {
+		marginTop: 8,
+		fontSize: 15,
+	},
+
+	inputsContainer: {
+
+		width: "100%",
+		marginTop: 20,
+		marginBottom: 40,
+		rowGap: 30,
+
+	},
+
+	inputContainer: {
+
+		flexDirection: "row",
+		width: "100%",
+		paddingVertical: "2%",
+		paddingHorizontal: "3%",
+		justifyContent: "space-between",
+		marginVertical: 30,
+
+	},
+
+	input: {
+		fontSize: 55,
+		color: colors["titlesVisuals"],
+	},
+
+	interactProdBtn: {
+		padding: 12,
+		alignItems: 'center',
+		backgroundColor: colors["background"],
+		borderRadius: 20,
+	},
+
+	submitButton: {
 		width: '100%',
 		paddingVertical: 12,
 		alignItems: 'center',

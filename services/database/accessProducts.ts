@@ -195,3 +195,57 @@ export async function deleteProduct(db: SQLite.SQLiteDatabase, name: string) {
 	}
 
 }
+
+export async function addStockProduct(db: SQLite.SQLiteDatabase, newStock: number, productName: string){
+
+	const product = await readProduct(db, productName);
+
+	
+	if (!(("isFooter") in product)){
+
+		const resultStock = product.stock + newStock;
+
+		const stmt = await db.prepareAsync(`UPDATE "Products" SET "stock"=? WHERE id = ?`);
+
+		try {
+
+			await stmt.executeAsync([resultStock.toString(), product.id]);
+
+		} catch (error: any) {
+
+			throw new Error(`Error while updating the stock's product '${name}', `, error);
+
+		}finally{
+
+			await stmt.finalizeAsync();
+		}
+	}
+
+}
+
+export async function remStockProduct(db: SQLite.SQLiteDatabase, newStock: number, productName: string){
+
+	const product = await readProduct(db, productName);
+
+	
+	if (!(("isFooter") in product)){
+
+		const resultStock = product.stock - newStock;
+
+		const stmt = await db.prepareAsync(`UPDATE "Products" SET "stock"=? WHERE id = ?`);
+
+		try {
+
+			await stmt.executeAsync([resultStock.toString(), product.id]);
+
+		} catch (error: any) {
+
+			throw new Error(`Error while updating the stock's product '${name}', `, error);
+
+		}finally{
+
+			await stmt.finalizeAsync();
+		}
+	}
+
+}

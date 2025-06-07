@@ -9,22 +9,22 @@ export async function addCategory(db: SQLite.SQLiteDatabase, name: string, imgPi
 	if (!name) throw new Error("Le nom doit être rempli");
 	
 
-	let fields = [];
-	let values = [];
+	let fields = ['name'];
+	let values: any = [name];
+	let placeholders = ["?"];
 
 	const localImgSrc = imgPickerSrc && await fileManager.categories.saveCategoryImage(imgPickerSrc, name);
-		
-	fields.push("'name'");
-	values.push(name);
 
 	if (imgPickerSrc){
 		
 		fields.push("'image_src'");
 		values.push(localImgSrc);
+		placeholders.push("?");
+		
 	}
 
 
-	const stmt = await db.prepareAsync(`INSERT INTO "Categories" (${fields.join(", ")}) VALUES (? , ?)`);
+	const stmt = await db.prepareAsync(`INSERT INTO "Categories" (${fields.join(", ")}) VALUES (${placeholders.join(", ")})`);
 
 	try {
 

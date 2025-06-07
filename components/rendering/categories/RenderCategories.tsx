@@ -12,7 +12,6 @@ import dataAccess from '@/services/database/dataAccess';
 import global from "@/utils/global";
 import { BlurView } from 'expo-blur';
 import { ImageBackground } from 'expo-image';
-import { CategoryStock } from './CategoryStock';
 
 
 type RenderingProps = {
@@ -63,7 +62,8 @@ export default function RenderCategories({state, isEmptyCategories, onEmptyChang
 
 	useEffect(() => {
 
-		categories && onEmptyChange(!!!categories);
+		categories && onEmptyChange(("isFooter" in categories![0]));
+
 
 	}, [categories])
 
@@ -112,9 +112,9 @@ export default function RenderCategories({state, isEmptyCategories, onEmptyChang
 
 									<BlurView intensity={15} tint="dark" style={styles.blurContainer}>
 										
-										<ThemedText variant="cardTitle" color="titlesVisuals">{item.name}</ThemedText>
+										<ThemedText style={{textAlign: 'center', paddingHorizontal: 10}} variant="cardTitle" color="titlesVisuals">{item.name}</ThemedText>
 
-										<CategoryStock db={db} categoryName={item.name} forceCountRefresh={forceCountRefresh} setForceCountRefresh={setForceCountRefresh}/>
+										{/*<CategoryStock db={db} categoryName={item.name} forceCountRefresh={forceCountRefresh} setForceCountRefresh={setForceCountRefresh}/>*/}
 
 										{state && (
 

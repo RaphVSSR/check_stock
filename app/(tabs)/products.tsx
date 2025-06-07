@@ -3,8 +3,10 @@ import RenderActionBtn from '@/components/rendering/RenderActionBtn';
 import RenderNavBar from '@/components/rendering/RenderNavBar';
 import RenderProducts from '@/components/rendering/products/RenderProducts';
 import RenderAddProductModal from '@/components/rendering/products/modals/RenderAddProductModal';
+import RenderAddStockProductModal from '@/components/rendering/products/modals/RenderAddStockProductModal';
 import RenderDelProductModal from '@/components/rendering/products/modals/RenderDelProductModal';
 import RenderModProductModal from '@/components/rendering/products/modals/RenderModProductModal';
+import RenderRemStockProductModal from '@/components/rendering/products/modals/RenderRemStockProductModal';
 import { basePage } from '@/constants/styles';
 import { useThemeColors } from '@/hooks/useThemeColors';
 import global from '@/utils/global';
@@ -27,7 +29,10 @@ export default function Products(){
 	const [addProductModalVisibility, setAddProductModalVisibility] = useState(false);
 	const [delProductModalVisibility, setDelProductModalVisibility] = useState(false);
 	const [modProductModalVisibility, setModProductModalVisibility] = useState(false);
-	const [productActionName, setProductActionName] = useState<string|null>(null);
+	const [addStockProductModalVisibility, setAddStockProductModalVisibility] = useState(false);
+	const [remStockProductModalVisibility, setRemStockProductModalVisibility] = useState(false);
+
+	const [productActionName, setProductActionName] = useState<string | null>(null);
 
 	const styles = basePage(colors);
 
@@ -52,6 +57,12 @@ export default function Products(){
 
 		<RenderNavBar state={actionBtnState} setState={setActionBtnState} title={categoryActionName}/>
 
+		<RenderAddProductModal
+
+			visibility={addProductModalVisibility} 
+			setModalVisibility={setAddProductModalVisibility}
+			setForceRefresh={setForceRefresh}/>
+
 		<RenderModProductModal 
 
 			visibility={modProductModalVisibility} 
@@ -66,11 +77,20 @@ export default function Products(){
 			productName={productActionName as string}
 			setForceRefresh={setForceRefresh}/>
 
-		<RenderAddProductModal
+		<RenderAddStockProductModal
+		
+			visibility={addStockProductModalVisibility}
+			setModalVisibility={setAddStockProductModalVisibility}
+			setForceRefresh={setForceRefresh}
+			productActionName={productActionName as string}/>
 
-			visibility={addProductModalVisibility} 
-			setModalVisibility={setAddProductModalVisibility}
-			setForceRefresh={setForceRefresh}/>
+		<RenderRemStockProductModal
+		
+			visibility={remStockProductModalVisibility}
+			setModalVisibility={setRemStockProductModalVisibility}
+			setForceRefresh={setForceRefresh}
+			productActionName={productActionName as string}/>
+
 
 		<ImageBackground
 			
@@ -88,6 +108,8 @@ export default function Products(){
 				setAddModalVisibility={setAddProductModalVisibility} 
 				setDelProductModalVisibility={setDelProductModalVisibility} 
 				setModProductModalVisibility={setModProductModalVisibility}
+				setAddStockProductModalVisibility={setAddStockProductModalVisibility}
+				setRemStockProductModalVisibility={setRemStockProductModalVisibility}
 				setProductActionName={setProductActionName}
 				categoryActionId={categoryActionId!}
 				forceRefresh={forceRefresh}

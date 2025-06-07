@@ -21,13 +21,15 @@ type RenderingProps = {
 	setDelProductModalVisibility: React.Dispatch<React.SetStateAction<boolean>>,
 	setModProductModalVisibility: React.Dispatch<React.SetStateAction<boolean>>,
 	setProductActionName: React.Dispatch<React.SetStateAction<string|null>>,
+	setAddStockProductModalVisibility: React.Dispatch<React.SetStateAction<boolean>>,
+	setRemStockProductModalVisibility: React.Dispatch<React.SetStateAction<boolean>>,
 	categoryActionId: string,
 	forceRefresh: boolean,
 	setForceRefresh: React.Dispatch<React.SetStateAction<boolean>>,
 }
 
 
-export default function RenderProducts({state, isEmptyProducts, onEmptyChange, setAddModalVisibility, setDelProductModalVisibility, setModProductModalVisibility, setProductActionName, categoryActionId, forceRefresh, setForceRefresh}: RenderingProps){
+export default function RenderProducts({state, isEmptyProducts, onEmptyChange, setAddModalVisibility, setDelProductModalVisibility, setModProductModalVisibility, setProductActionName, setAddStockProductModalVisibility, setRemStockProductModalVisibility, categoryActionId, forceRefresh, setForceRefresh}: RenderingProps){
 	
 	const colors = useThemeColors();
 
@@ -106,7 +108,7 @@ export default function RenderProducts({state, isEmptyProducts, onEmptyChange, s
 
 										<ThemedText variant="cardSubtitle" color="titlesVisuals"> {`${item.stock} ${item.unit}`} </ThemedText>
 
-										{state && (
+										{state ? (
 
 											<View style={styles.optionsMenu}>
 
@@ -133,7 +135,36 @@ export default function RenderProducts({state, isEmptyProducts, onEmptyChange, s
 
 											</View>
 
+										)
+										: (
+
+											<View style={styles.optionsMenu}>
+
+												<TouchableOpacity style={styles.addProdBtn} onPress={() => {
+
+													setProductActionName(item.name);
+													setAddStockProductModalVisibility(true);
+
+												}}>
+
+													<MaterialCommunityIcons name="plus" size={50} color={colors["background"]}/>
+
+												</TouchableOpacity>
+												<TouchableOpacity style={styles.remProdBtn} onPress={() => {
+
+													setProductActionName(item.name);
+													setRemStockProductModalVisibility(true);
+
+												}}>
+
+													<MaterialCommunityIcons name="minus" size={50} color={colors["background"]}/>
+
+												</TouchableOpacity>
+
+											</View>
+
 										)}
+
 									</BlurView>
 
 								</ImageBackground>

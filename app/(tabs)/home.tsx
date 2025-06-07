@@ -75,6 +75,7 @@ export default function Home(){
 			setModalVisibility={setAddCategoryModalVisibility}
 			setForceRefresh={setForceRefresh}/>
 
+
 		<ImageBackground
 		
 			style={styles.contentContainer}

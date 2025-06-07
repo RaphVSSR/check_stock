@@ -41,8 +41,11 @@ export default function RenderDelCategoryModal({ visibility, setModalVisibility,
 				<TouchableWithoutFeedback>
 					<View style={styles.modalContainer}>
 
-						<ThemedText style={{marginBottom: "5%", textAlign: "center"}} variant='popupTitle' color='titlesVisuals'>Voulez-vous vraiment supprimer la catégorie
-						&quot;{categoryName}&quot; ?</ThemedText>
+						<ThemedText style={{marginBottom: "5%", textAlign: "center"}} variant='popupTitle' color='titlesVisuals'>
+							
+							Voulez-vous vraiment supprimer la catégorie &quot;<ThemedText  variant='popupTitle' color='contrasts'>{categoryName}</ThemedText>&quot; ?
+						
+						</ThemedText>
 						<TouchableOpacity style={styles.delButton} onPress={async () => {
 
 							dataAcess.categories.deleteCategory(db, categoryName)
