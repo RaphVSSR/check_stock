@@ -77,7 +77,7 @@ export default function RenderAddStockProductModal({ visibility, setModalVisibil
 				<TouchableWithoutFeedback>
 					<View style={styles.modalContainer}>
 
-						<ThemedText style={{marginRight: 10}} variant='popupTitle' color='titlesVisuals'>Ajout <ThemedText variant='popupTitle' color='contrasts'>{productActionName}</ThemedText></ThemedText>
+						<ThemedText style={{textAlign: 'center'}} variant='popupTitle' color='titlesVisuals'>Ajout <ThemedText variant='popupTitle' color='contrasts'>{productActionName}</ThemedText></ThemedText>
 
 						<View style={styles.inputContainer}>
 

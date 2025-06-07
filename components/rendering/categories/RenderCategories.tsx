@@ -4,7 +4,7 @@ import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import { useSQLiteContext } from "expo-sqlite";
 import React, { useEffect, useState } from "react";
-import { FlatList, TouchableOpacity, View } from "react-native";
+import { Dimensions, FlatList, TouchableOpacity, View } from "react-native";
 import { ThemedText } from "../../ThemedText";
 
 import { displayListStyles } from '@/constants/styles';
@@ -12,6 +12,7 @@ import dataAccess from '@/services/database/dataAccess';
 import global from "@/utils/global";
 import { BlurView } from 'expo-blur';
 import { ImageBackground } from 'expo-image';
+import DeviceInfo from 'react-native-device-info';
 
 
 type RenderingProps = {
@@ -38,6 +39,10 @@ export default function RenderCategories({state, isEmptyCategories, onEmptyChang
 	const db = useSQLiteContext();
 
 	const styles = displayListStyles(colors);
+
+	const { width, height } = Dimensions.get("window");
+
+	const isTablet = DeviceInfo.isTablet();
 
 	const [categories, setCategories] = useState<null | Category[]>(null);
 
@@ -84,7 +89,7 @@ export default function RenderCategories({state, isEmptyCategories, onEmptyChang
 
 							<TouchableOpacity style={styles.addBtn} onPress={() => {setAddModalVisibility(true)}}>
 
-								<Ionicons name="add" size={100} color={colors["contrasts"]} />
+								<Ionicons name="add" size={width * 0.2} color={colors["contrasts"]} />
 
 							</TouchableOpacity>
 
@@ -104,7 +109,7 @@ export default function RenderCategories({state, isEmptyCategories, onEmptyChang
 
 										<View style={styles.iconCate}>
 
-											<Ionicons name="image-outline" size={60} color={colors["subtitlesParags"]}/>
+											<Ionicons name="image-outline" size={width * 0.12} color={colors["subtitlesParags"]}/>
 
 										</View>
 
@@ -127,7 +132,7 @@ export default function RenderCategories({state, isEmptyCategories, onEmptyChang
 
 												}}>
 
-													<MaterialCommunityIcons name="pencil" size={35} color="#fff"/>
+													<MaterialCommunityIcons name="pencil" size={isTablet ? width * 0.05 : width * 0.07} color="#fff"/>
 
 												</TouchableOpacity>
 												<TouchableOpacity style={styles.delBtn} onPress={() => {
@@ -137,7 +142,7 @@ export default function RenderCategories({state, isEmptyCategories, onEmptyChang
 
 												}}>
 
-													<MaterialCommunityIcons name="trash-can-outline" size={35} color="#fff"/>
+													<MaterialCommunityIcons name="trash-can-outline" size={isTablet ? width * 0.05 : width * 0.07} color="#fff"/>
 
 												</TouchableOpacity>
 
@@ -150,11 +155,12 @@ export default function RenderCategories({state, isEmptyCategories, onEmptyChang
 							</TouchableOpacity>
 						: <></>
 					)}
-					numColumns={3}
+					numColumns={isTablet ? 3 : 2}
 					columnWrapperStyle={{justifyContent: "flex-start"}}
 					showsVerticalScrollIndicator={false}
 
 				/>
+
 			)}
 		</>
 	)

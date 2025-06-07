@@ -5,7 +5,7 @@ import { useThemeColors } from '@/hooks/useThemeColors';
 import { Ionicons } from '@expo/vector-icons';
 import * as ImagePicker from 'expo-image-picker';
 import React, { useState } from 'react';
-import { FlatList, Image, Modal, Pressable, TouchableOpacity, TouchableWithoutFeedback, View } from 'react-native';
+import { Dimensions, FlatList, Image, Modal, Pressable, TouchableOpacity, TouchableWithoutFeedback, View } from 'react-native';
 
 import { ThemedNumberInput } from '@/components/ThemedNumberInput';
 import { addProductModal } from '@/constants/styles';
@@ -36,6 +36,8 @@ export default function RenderAddProductModal({ visibility, setModalVisibility, 
 	const db = useSQLiteContext();
 
 	const styles = addProductModal(colors);
+
+	const { width, height } = Dimensions.get("window");
 
 	const toastConfig = {
 
@@ -97,8 +99,8 @@ export default function RenderAddProductModal({ visibility, setModalVisibility, 
 								<Image source={{ uri: imageUri }} style={styles.image} />
 								: 
 								<>
-									<Ionicons name="image-outline" size={48} color="#888" />
-									<ThemedText variant='paragraphPopup' color='subtitlesParags'>Touchez pour insérer une image</ThemedText>
+									<Ionicons name="image-outline" size={width * 0.12} color="#888" />
+									<ThemedText style={{textAlign: "center", padding: 10}} variant='paragraphPopup' color='subtitlesParags'>Touchez pour insérer une image</ThemedText>
 								</>
 							}
 
@@ -153,6 +155,7 @@ export default function RenderAddProductModal({ visibility, setModalVisibility, 
 								setModalVisibility(false);
 								setImageUri(null);
 								setProductName(undefined);
+								setNbStock(undefined);
 								
 								global.forceCountRefresh = true;
 								setForceRefresh(true);

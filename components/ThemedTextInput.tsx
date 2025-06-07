@@ -3,6 +3,8 @@ import { Colors } from "@/constants/Colors"
 import { useThemeColors } from "@/hooks/useThemeColors"
 import React from "react"
 import { StyleSheet, TextInput, TextInputProps } from "react-native"
+import { isTablet } from "react-native-device-info"
+import { RFValue } from "react-native-responsive-fontsize"
 
 const styles = StyleSheet.create({
 
@@ -28,7 +30,7 @@ const styles = StyleSheet.create({
 
 	paragraphPopup: {
 
-		fontSize: 25,
+		fontSize: isTablet() ? RFValue(15) : RFValue(18),
 		fontFamily: "Calibri-regular"
 	},
 

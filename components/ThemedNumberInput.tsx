@@ -2,48 +2,70 @@ import { Colors } from "@/constants/Colors"
 import { useThemeColors } from "@/hooks/useThemeColors"
 import React from "react"
 import { StyleSheet, TextInput, TextInputProps } from "react-native"
+import { isTablet } from "react-native-device-info"
+import { RFValue } from "react-native-responsive-fontsize"
 
 const styles = StyleSheet.create({
   // ... (tes styles inchangés)
   title: {
+    
     fontSize: 50,
     fontFamily: "OptiCopper-Heavy"
+    
   },
   cardTitle: {
+    
     fontSize: 18,
     fontFamily: "OptiCopper-Heavy"
+    
   },
   cardSubtitle: {
+    
     fontSize: 23,
     fontFamily: "Calibri-bold",
+    
   },
   paragraphPopup: {
-    fontSize: 25,
+    
+		fontSize: isTablet() ? RFValue(15) : RFValue(18),
     fontFamily: "Calibri-regular"
+    
   },
   altImage: {
+    
     fontSize: 25,
     fontFamily: "Calibri-bold"
+    
   },
   navbarHeader: {
+    
     fontSize: 30,
     fontFamily: "Calibri-regular"
+    
   },
   specialElementsPopup: {
+    
     fontSize: 30,
     fontFamily: "Calibri-bold"
+    
   },
   paragraph: {
+    
     fontSize: 35,
     fontFamily: "Calibri-regular"
+    
   },
   popupTitle: {
+    
     fontSize: 35,
     fontFamily: "Calibri-bold"
+    
   },
   contentBtn: {
+    
     fontSize: 40,
     fontFamily: "Calibri-regular"
+    
   },
 })
 
@@ -88,7 +110,7 @@ export const ThemedNumberInput = React.forwardRef<TextInput, Props>(
         ]}
         keyboardType="numeric"
         inputMode="numeric"
-		onChangeText={handleChange}
+		    onChangeText={handleChange}
         {...rest}
       />
 

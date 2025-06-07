@@ -5,7 +5,7 @@ import { useThemeColors } from '@/hooks/useThemeColors';
 import { Ionicons } from '@expo/vector-icons';
 import * as ImagePicker from 'expo-image-picker';
 import React, { useState } from 'react';
-import { Image, Modal, Pressable, TouchableOpacity, TouchableWithoutFeedback, View } from 'react-native';
+import { Dimensions, Image, Modal, Pressable, TouchableOpacity, TouchableWithoutFeedback, View } from 'react-native';
 
 import { addCategoryModal } from '@/constants/styles';
 import { showErrorToast } from '@/constants/Toasts';
@@ -30,6 +30,8 @@ export default function RenderAddCategoryModal({ visibility, setModalVisibility,
 	const db = useSQLiteContext();
 
 	const styles = addCategoryModal(colors);
+	const {width, height} = Dimensions.get("window");
+
 
 	const toastConfig = {
 
@@ -83,7 +85,7 @@ export default function RenderAddCategoryModal({ visibility, setModalVisibility,
 				<TouchableWithoutFeedback>
 					<View style={styles.modalContainer}>
 
-						<ThemedText variant='popupTitle' color='titlesVisuals'>Ajouter une catégorie</ThemedText>
+						<ThemedText style={{textAlign: 'center'}} variant='popupTitle' color='titlesVisuals'>Ajouter une catégorie</ThemedText>
 						<TouchableOpacity style={styles.imagePicker} onPress={pickImage}>
 
 							{imageUri ? 
@@ -91,8 +93,8 @@ export default function RenderAddCategoryModal({ visibility, setModalVisibility,
 								<Image source={{ uri: imageUri }} style={styles.image} />
 								: 
 								<>
-									<Ionicons name="image-outline" size={48} color="#888" />
-									<ThemedText variant='paragraphPopup' color='subtitlesParags'>Touchez pour insérer une image</ThemedText>
+									<Ionicons name="image-outline" size={width * 0.12} color="#888" />
+									<ThemedText style={{textAlign: "center", padding: 10}} variant='paragraphPopup' color='subtitlesParags'>Touchez pour insérer une image</ThemedText>
 								</>
 							}
 

@@ -7,6 +7,7 @@ import { Modal, Pressable, TouchableOpacity, TouchableWithoutFeedback, View } fr
 import { delCategoryModal } from '@/constants/styles';
 import dataAcess from '@/services/database/dataAccess';
 import { useSQLiteContext } from 'expo-sqlite';
+import { isTablet } from 'react-native-device-info';
 
 type RenderingProps = {
 
@@ -43,7 +44,7 @@ export default function RenderDelCategoryModal({ visibility, setModalVisibility,
 
 						<ThemedText style={{marginBottom: "5%", textAlign: "center"}} variant='popupTitle' color='titlesVisuals'>
 							
-							Voulez-vous vraiment supprimer la catégorie &quot;<ThemedText  variant='popupTitle' color='contrasts'>{categoryName}</ThemedText>&quot; ?
+							Voulez-vous vraiment supprimer la catégorie {!isTablet() && "\n"}&quot;<ThemedText  variant='popupTitle' color='contrasts'>{categoryName}</ThemedText>&quot; ?
 						
 						</ThemedText>
 						<TouchableOpacity style={styles.delButton} onPress={async () => {

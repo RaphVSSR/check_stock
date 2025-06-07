@@ -5,11 +5,12 @@ import { Category } from '@/constants/types';
 import { useThemeColors } from '@/hooks/useThemeColors';
 import * as ImagePicker from 'expo-image-picker';
 import React, { useEffect, useState } from 'react';
-import { Image, Modal, Pressable, TouchableOpacity, TouchableWithoutFeedback, View } from 'react-native';
+import { Dimensions, Image, Modal, Pressable, TouchableOpacity, TouchableWithoutFeedback, View } from 'react-native';
 
 import { modCategoryModal } from '@/constants/styles';
 import { showErrorToast } from '@/constants/Toasts';
 import dataAcess from '@/services/database/dataAccess';
+import { Ionicons } from '@expo/vector-icons';
 import { useSQLiteContext } from 'expo-sqlite';
 import Toast, { BaseToastProps } from 'react-native-toast-message';
 
@@ -32,6 +33,7 @@ export default function RenderModCategoryModal({ visibility, setModalVisibility,
 	const db = useSQLiteContext();
 
 	const styles = modCategoryModal(colors);
+	const {width, height} = Dimensions.get("window");
 
 	const toastConfig = {
 
@@ -105,7 +107,11 @@ export default function RenderModCategoryModal({ visibility, setModalVisibility,
 								
 								<Image source={{ uri: category.image_src }} style={styles.image}/>
 								
-								: imageUri && <Image source={{ uri: imageUri }} style={styles.image}/>}
+								: imageUri ? <Image source={{ uri: imageUri }} style={styles.image}/>
+								:<>
+									<Ionicons name="image-outline" size={width * 0.12} color="#888" />
+									<ThemedText style={{textAlign: "center", padding: 10}} variant='paragraphPopup' color='subtitlesParags'>Touchez pour insérer une image</ThemedText>
+								</>}
 
 							</TouchableOpacity>
 							<ThemedTextInput

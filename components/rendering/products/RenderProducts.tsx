@@ -2,7 +2,7 @@ import { useThemeColors } from "@/hooks/useThemeColors";
 import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 import { useSQLiteContext } from "expo-sqlite";
 import React, { useEffect, useState } from "react";
-import { FlatList, TouchableOpacity, View } from "react-native";
+import { Dimensions, FlatList, TouchableOpacity, View } from "react-native";
 import { ThemedText } from "../../ThemedText";
 
 import { displayListStyles } from '@/constants/styles';
@@ -10,6 +10,7 @@ import { Product } from "@/constants/types";
 import dataAccess from '@/services/database/dataAccess';
 import { BlurView } from 'expo-blur';
 import { ImageBackground } from 'expo-image';
+import { isTablet } from "react-native-device-info";
 
 
 type RenderingProps = {
@@ -36,6 +37,8 @@ export default function RenderProducts({state, isEmptyProducts, onEmptyChange, s
 	const db = useSQLiteContext();
 
 	const styles = displayListStyles(colors);
+
+	const { width, height } = Dimensions.get("window");
 
 	const [products, setProducts] = useState<null | Product[]>(null);
 	
@@ -104,7 +107,7 @@ export default function RenderProducts({state, isEmptyProducts, onEmptyChange, s
 
 									<BlurView intensity={15} tint="dark" style={styles.blurContainer}>
 										
-										<ThemedText variant="cardTitle" color="titlesVisuals">{item.name}</ThemedText>
+										<ThemedText style={{textAlign: "center"}} variant="cardTitle" color="titlesVisuals">{item.name}</ThemedText>
 
 										<ThemedText variant="cardSubtitle" color="titlesVisuals"> {`${item.stock} ${item.unit}`} </ThemedText>
 
@@ -119,7 +122,7 @@ export default function RenderProducts({state, isEmptyProducts, onEmptyChange, s
 
 												}}>
 
-													<MaterialCommunityIcons name="pencil" size={35} color="#fff"/>
+													<MaterialCommunityIcons name="pencil" size={width * 0.07} color="#fff"/>
 
 												</TouchableOpacity>
 												<TouchableOpacity style={styles.delBtn} onPress={() => {
@@ -129,7 +132,7 @@ export default function RenderProducts({state, isEmptyProducts, onEmptyChange, s
 
 												}}>
 
-													<MaterialCommunityIcons name="trash-can-outline" size={35} color="#fff"/>
+													<MaterialCommunityIcons name="trash-can-outline" size={width * 0.07} color="#fff"/>
 
 												</TouchableOpacity>
 
@@ -147,7 +150,7 @@ export default function RenderProducts({state, isEmptyProducts, onEmptyChange, s
 
 												}}>
 
-													<MaterialCommunityIcons name="plus" size={50} color={colors["background"]}/>
+													<MaterialCommunityIcons name="plus" size={isTablet() ? width * 0.07 : width * 0.09} color={colors["background"]}/>
 
 												</TouchableOpacity>
 												<TouchableOpacity style={styles.remProdBtn} onPress={() => {
@@ -157,7 +160,7 @@ export default function RenderProducts({state, isEmptyProducts, onEmptyChange, s
 
 												}}>
 
-													<MaterialCommunityIcons name="minus" size={50} color={colors["background"]}/>
+													<MaterialCommunityIcons name="minus" size={isTablet() ? width * 0.07 : width * 0.09} color={colors["background"]}/>
 
 												</TouchableOpacity>
 
@@ -171,7 +174,7 @@ export default function RenderProducts({state, isEmptyProducts, onEmptyChange, s
 							</View>
 						: <></>
 					)}
-					numColumns={3}
+					numColumns={isTablet() ? 3 : 2}
 					columnWrapperStyle={{justifyContent: "flex-start"}}
 					showsVerticalScrollIndicator={false}
 

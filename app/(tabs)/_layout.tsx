@@ -8,6 +8,17 @@ export default function RootLayout() {
   useEffect(() => {
 
     ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.PORTRAIT_UP);
+    //(async () => {
+    //  try {
+    //    await ScreenOrientation.lockAsync(
+    //      Device.getDeviceTypeAsync() === Device.DeviceType.TABLET
+    //        ? ScreenOrientation.OrientationLock.LANDSCAPE // ou autre orientation
+    //        : ScreenOrientation.OrientationLock.PORTRAIT_UP
+    //    );
+    //  } catch (error) {
+    //    console.error('Error locking orientation', error);
+    //  }
+    //})();
 
   }, []);
 

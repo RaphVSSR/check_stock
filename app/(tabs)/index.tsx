@@ -3,10 +3,13 @@ import { useThemeColors } from "@/hooks/useThemeColors";
 import global from "@/utils/global";
 import { useFocusEffect, useRouter } from "expo-router";
 import React from "react";
-import { Image, Platform, SafeAreaView, StatusBar, StyleSheet, TouchableOpacity, View } from "react-native";
+import { Dimensions, Image, Platform, SafeAreaView, StatusBar, StyleSheet, TouchableOpacity, View } from "react-native";
+import { RFValue } from "react-native-responsive-fontsize";
 
 
 export default function Index() {
+
+  const {width, height} = Dimensions.get("window");
 
   const router = useRouter();
 
@@ -52,8 +55,9 @@ export default function Index() {
 
     logo: {
 
-      width: 350,
-      height: 350
+      width: width * 0.5,
+      height: height * 0.5,
+      resizeMode: "contain",
 
     },
 
@@ -129,7 +133,7 @@ export default function Index() {
           <View style={styles.titleContainer}>
 
             <ThemedText variant="title" color="titlesVisuals">Check&Stock</ThemedText>
-            <ThemedText variant="paragraph" color="subtitlesParags">Gestionnaire d&apos;inventaire professionnel</ThemedText>
+            <ThemedText style={{textAlign: "center"}} variant="paragraph" color="subtitlesParags">Gestionnaire d&apos;inventaire professionnel</ThemedText>
 
           </View>
 
@@ -172,7 +176,7 @@ export default function Index() {
 
       </View>
 
-      <ThemedText style={{ width: "100%", textAlign: "center", fontSize: 20}} variant="paragraphPopup" color="subtitlesParags">Developped by VASSEUR Raphaël</ThemedText>
+      <ThemedText style={{ width: "100%", textAlign: "center", fontSize: RFValue(12), marginBottom: 15}} variant="paragraphPopup" color="subtitlesParags">Developped by VASSEUR Raphaël</ThemedText>
 
     </SafeAreaView>
 

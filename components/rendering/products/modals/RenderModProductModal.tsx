@@ -121,7 +121,7 @@ export default function RenderModProductModal({ visibility, setModalVisibility, 
 								: imageUri ? <Image source={{ uri: imageUri }} style={styles.image}/>
 								: <>
 									<Ionicons name="image-outline" size={48} color="#888" />
-									<ThemedText variant='paragraphPopup' color='subtitlesParags'>Touchez pour insérer une image</ThemedText>
+									<ThemedText style={{textAlign: "center", padding: 10}} variant='paragraphPopup' color='subtitlesParags'>Touchez pour insérer une image</ThemedText>
 								</>
 							}
 

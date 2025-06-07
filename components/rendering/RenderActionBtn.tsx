@@ -3,6 +3,7 @@ import global from '@/utils/global'
 import { MaterialIcons } from '@expo/vector-icons'
 import React from 'react'
 import { Dimensions, StyleSheet, TouchableOpacity } from 'react-native'
+import { isTablet } from 'react-native-device-info'
 
 type RenderActionBtnProps = {
 
@@ -14,13 +15,15 @@ export default function RenderActionBtn({state, setState}: RenderActionBtnProps)
 
 	const colors = useThemeColors();
 
+	const { width, height } = Dimensions.get("window");
+
 	const styles = StyleSheet.create({
 
 		actionBtn: {
 	
 			position: 'absolute',
-			right: Dimensions.get("window").height * 0.05,
-			bottom: Dimensions.get("window").height * 0.05,
+			right: height * 0.05,
+			bottom: height * 0.08,
 			padding: "2%",
 			backgroundColor: colors["background3"],
 			borderRadius: 9999,
@@ -33,8 +36,8 @@ export default function RenderActionBtn({state, setState}: RenderActionBtnProps)
 		actionBtnActivated: {
 	
 			position: 'absolute',
-			right: Dimensions.get("window").height * 0.05,
-			bottom: Dimensions.get("window").height * 0.05,
+			right: height * 0.05,
+			bottom: height * 0.08,
 			padding: "2%",
 			backgroundColor: colors["contrasts"],
 			borderRadius: 9999,
@@ -52,7 +55,7 @@ export default function RenderActionBtn({state, setState}: RenderActionBtnProps)
 
 	}}>
 
-		<MaterialIcons name="touch-app" size={60} color={ state ? colors["background"] : colors["contrasts"]} />
+		<MaterialIcons name="touch-app" size={isTablet() ? width * 0.1 : width * 0.15} color={ state ? colors["background"] : colors["contrasts"]} />
 
 	</TouchableOpacity>
 

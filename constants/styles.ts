@@ -1,5 +1,10 @@
 
-import { Platform, StatusBar, StyleSheet } from "react-native";
+import { Dimensions, Platform, StatusBar, StyleSheet } from "react-native";
+import DeviceInfo from 'react-native-device-info';
+
+const {width, height} = Dimensions.get("window");
+
+const isTablet = DeviceInfo.isTablet();
 
 export const basePage = (colors: any) => StyleSheet.create({
 
@@ -34,8 +39,8 @@ export const displayListStyles = (colors: any) => StyleSheet.create({
 
 	addBtn: {
 
-		width: 225,
-		height: 230,
+		width: isTablet ? width * 0.28 : width * 0.43,
+		height: height * 0.2,
 		alignItems: 'center',
 		justifyContent: 'center',
 		borderColor: colors["contrasts"],
@@ -45,8 +50,8 @@ export const displayListStyles = (colors: any) => StyleSheet.create({
 
 	categoryCard: {
 
-		width: 225,
-		height: 230,
+		width: isTablet ? width * 0.28 : width * 0.43,
+		height: height * 0.2,
 		backgroundColor: colors["background3"],
 		borderRadius: 20,
 		marginRight: "3%",
@@ -77,37 +82,36 @@ export const displayListStyles = (colors: any) => StyleSheet.create({
 	blurContainer: {
 
 		width: "100%",
-		paddingVertical: "3%",
+		paddingVertical: isTablet ? "3%" : "5%",
 		alignItems: "center",
 
 	},
 
 	optionsMenu: {
-
+		
 		flexDirection: "row",
 		width: "100%",
 		justifyContent: "space-evenly",
-		marginTop: 15,
+		marginTop: 5,
 
 	},
 
 	modBtn: {
 
-		width: 80,
-		height: 55,
+		width: isTablet ? width * 0.12  : width * 0.15,
+		height: isTablet ? "auto" : height * 0.06,
 		alignItems: "center",
 		justifyContent: "center",
 		backgroundColor: '#FF8300',
 		borderRadius: 12,
 		padding: 8,
-		marginRight: 8,
 		
 	},
 
 	delBtn: {
 
-		width: 80,
-		height: 55,
+		width: isTablet ? width * 0.12  : width * 0.15,
+		height: isTablet ? "auto" : height * 0.06,
 		alignItems: "center",
 		justifyContent: "center",
 		backgroundColor: '#232326',
@@ -118,24 +122,25 @@ export const displayListStyles = (colors: any) => StyleSheet.create({
 
 	addProdBtn: {
 
-		width: "40%",
+		width: isTablet ? width * 0.12 : width * 0.15,
+		height: isTablet ? height * 0.06 : height * 0.04,
 		alignItems: "center",
 		justifyContent: "center",
 		backgroundColor: colors["contrasts"],
 		borderRadius: 12,
-		paddingVertical: "2%",
-		marginRight: 8,
+		paddingVertical: isTablet ? "2%" : 0,
 
 	},
 
 	remProdBtn: {
 
-		width: "40%",
+		width: isTablet ? width * 0.12 : width * 0.15,
+		height: isTablet ? height * 0.06 : height * 0.04,
 		alignItems: "center",
 		justifyContent: "center",
 		backgroundColor: colors["contrasts"],
 		borderRadius: 12,
-		paddingVertical: "2%",
+		paddingVertical: isTablet ? "2%" : 0,
 
 	},
 
@@ -155,7 +160,7 @@ export const addCategoryModal = (colors: any) => StyleSheet.create({
 
 	modalContainer: {
 
-		width: "50%",
+		width: isTablet ? "70%" : "80%",
 		padding: 30,
 		alignItems: "center",
 		backgroundColor: colors["background2"],
@@ -218,7 +223,7 @@ export const modCategoryModal = (colors: any) => StyleSheet.create({
 
 	modalContainer: {
 
-		width: "50%",
+		width: isTablet ? "70%" : "80%",
 		padding: 30,
 		alignItems: "center",
 		backgroundColor: colors["background2"],
@@ -281,7 +286,7 @@ export const delCategoryModal = (colors: any) => StyleSheet.create({
 
 	modalContainer: {
 
-		width: "70%",
+		width: isTablet ? "70%" : "80%",
 		padding: 30,
 		alignItems: "center",
 		backgroundColor: colors["background2"],
@@ -312,7 +317,7 @@ export const addProductModal = (colors: any) => StyleSheet.create({
 
 	modalContainer: {
 
-		width: "50%",
+		width: isTablet ? "70%" : "80%",
 		padding: 30,
 		alignItems: "center",
 		backgroundColor: colors["background2"],
@@ -394,7 +399,7 @@ export const modProductModal = (colors: any) => StyleSheet.create({
 
 	modalContainer: {
 
-		width: "50%",
+		width: isTablet ? "70%" : "80%",
 		padding: 30,
 		alignItems: "center",
 		backgroundColor: colors["background2"],
@@ -476,7 +481,7 @@ export const delProductModal = (colors: any) => StyleSheet.create({
 
 	modalContainer: {
 
-		width: "70%",
+		width: isTablet ? "70%" : "80%",
 		padding: 30,
 		alignItems: "center",
 		backgroundColor: colors["background2"],
@@ -506,7 +511,7 @@ export const setStockProductModal = (colors: any) => StyleSheet.create({
 
 	modalContainer: {
 
-		width: "50%",
+		width: isTablet ? "70%" : "80%",
 		padding: 30,
 		alignItems: "center",
 		backgroundColor: colors["background2"],
@@ -564,8 +569,9 @@ export const setStockProductModal = (colors: any) => StyleSheet.create({
 	},
 
 	interactProdBtn: {
-		padding: 12,
+		padding: width * 0.02,
 		alignItems: 'center',
+		justifyContent: "center",
 		backgroundColor: colors["background"],
 		borderRadius: 20,
 	},
