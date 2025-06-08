@@ -4,14 +4,17 @@ import { ThemedTextInput } from '@/components/ThemedTextInput';
 import { useThemeColors } from '@/hooks/useThemeColors';
 import { Ionicons } from '@expo/vector-icons';
 import * as ImagePicker from 'expo-image-picker';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Dimensions, Image, Modal, Pressable, TouchableOpacity, TouchableWithoutFeedback, View } from 'react-native';
 
 import { addCategoryModal } from '@/constants/styles';
 import { showErrorToast } from '@/constants/Toasts';
 import dataAcess from '@/services/database/dataAccess';
+import * as ScreenOrientation from 'expo-screen-orientation';
 import { useSQLiteContext } from 'expo-sqlite';
+import { isLandscapeSync } from 'react-native-device-info';
 import Toast, { BaseToastProps } from 'react-native-toast-message';
+
 
 type RenderingProps = {
 

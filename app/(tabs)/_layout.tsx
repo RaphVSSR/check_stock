@@ -3,22 +3,12 @@ import * as ScreenOrientation from 'expo-screen-orientation';
 import { SQLiteProvider } from "expo-sqlite";
 import { useEffect } from "react";
 
-export default function RootLayout() {
 
+export default function RootLayout() {
+  
   useEffect(() => {
 
-    ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.PORTRAIT_UP);
-    //(async () => {
-    //  try {
-    //    await ScreenOrientation.lockAsync(
-    //      Device.getDeviceTypeAsync() === Device.DeviceType.TABLET
-    //        ? ScreenOrientation.OrientationLock.LANDSCAPE // ou autre orientation
-    //        : ScreenOrientation.OrientationLock.PORTRAIT_UP
-    //    );
-    //  } catch (error) {
-    //    console.error('Error locking orientation', error);
-    //  }
-    //})();
+    (async () => await ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.PORTRAIT))();
 
   }, []);
 

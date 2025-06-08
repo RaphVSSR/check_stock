@@ -11,8 +11,11 @@ import { modCategoryModal } from '@/constants/styles';
 import { showErrorToast } from '@/constants/Toasts';
 import dataAcess from '@/services/database/dataAccess';
 import { Ionicons } from '@expo/vector-icons';
+import * as ScreenOrientation from 'expo-screen-orientation';
 import { useSQLiteContext } from 'expo-sqlite';
+import { isLandscapeSync } from 'react-native-device-info';
 import Toast, { BaseToastProps } from 'react-native-toast-message';
+
 
 type RenderingProps = {
 
@@ -32,8 +35,10 @@ export default function RenderModCategoryModal({ visibility, setModalVisibility,
 	
 	const db = useSQLiteContext();
 
-	const styles = modCategoryModal(colors);
 	const {width, height} = Dimensions.get("window");
+	
+	const styles = modCategoryModal(colors);
+
 
 	const toastConfig = {
 

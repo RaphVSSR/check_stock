@@ -5,6 +5,7 @@ import React from 'react'
 import { Dimensions, StyleSheet, TouchableOpacity } from 'react-native'
 import { isTablet } from 'react-native-device-info'
 
+
 type RenderActionBtnProps = {
 
 	state: boolean,
@@ -22,8 +23,8 @@ export default function RenderActionBtn({state, setState}: RenderActionBtnProps)
 		actionBtn: {
 	
 			position: 'absolute',
-			right: height * 0.05,
-			bottom: height * 0.08,
+			right: width * 0.05,
+			bottom: height * 0.05,
 			padding: "2%",
 			backgroundColor: colors["background3"],
 			borderRadius: 9999,
@@ -36,8 +37,8 @@ export default function RenderActionBtn({state, setState}: RenderActionBtnProps)
 		actionBtnActivated: {
 	
 			position: 'absolute',
-			right: height * 0.05,
-			bottom: height * 0.08,
+			right: width * 0.05,
+			bottom: height * 0.05,
 			padding: "2%",
 			backgroundColor: colors["contrasts"],
 			borderRadius: 9999,

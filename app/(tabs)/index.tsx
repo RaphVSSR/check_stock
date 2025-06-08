@@ -9,14 +9,15 @@ import { RFValue } from "react-native-responsive-fontsize";
 
 export default function Index() {
 
-  const {width, height} = Dimensions.get("window");
-
   const router = useRouter();
 
   //const [user, setUser] = useState("");
   //const [pass, setPass] = useState("");
 
   const colors = useThemeColors();
+
+  const {width, height} = Dimensions.get("window");
+
 
   const styles = StyleSheet.create({
 
@@ -25,7 +26,8 @@ export default function Index() {
       flex: 1,
       paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0, //Force l'espace avec les barres d'informatioins de l'appareil
 
-      padding: "10%",
+      paddingVertical: "10%",
+      paddingHorizontal: "10%",
       backgroundColor: colors["background"],
     },
 
@@ -42,6 +44,7 @@ export default function Index() {
       width: "100%",
       justifyContent: "center",
       alignItems: "center",
+      marginTop: 0,
       marginBottom: 30,
 
     },
@@ -66,6 +69,7 @@ export default function Index() {
       flex: 1/3,
       width: "100%",
       justifyContent: "space-around",
+      alignItems: "center"
 
     },
 
@@ -91,6 +95,7 @@ export default function Index() {
 
     button: {
 
+      width: "100%",
       backgroundColor: colors["contrasts"],
       borderRadius: 13,
       marginTop: 20,

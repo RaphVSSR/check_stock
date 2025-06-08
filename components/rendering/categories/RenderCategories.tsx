@@ -12,7 +12,9 @@ import dataAccess from '@/services/database/dataAccess';
 import global from "@/utils/global";
 import { BlurView } from 'expo-blur';
 import { ImageBackground } from 'expo-image';
-import DeviceInfo from 'react-native-device-info';
+import * as ScreenOrientation from 'expo-screen-orientation';
+import DeviceInfo, { isLandscapeSync } from 'react-native-device-info';
+
 
 
 type RenderingProps = {
@@ -38,14 +40,13 @@ export default function RenderCategories({state, isEmptyCategories, onEmptyChang
 
 	const db = useSQLiteContext();
 
-	const styles = displayListStyles(colors);
-
 	const { width, height } = Dimensions.get("window");
 
 	const isTablet = DeviceInfo.isTablet();
 
 	const [categories, setCategories] = useState<null | Category[]>(null);
 
+	const styles = displayListStyles(colors);
 
 	useEffect(() => {
 		
@@ -68,7 +69,6 @@ export default function RenderCategories({state, isEmptyCategories, onEmptyChang
 	useEffect(() => {
 
 		categories && onEmptyChange(("isFooter" in categories![0]));
-
 
 	}, [categories])
 
