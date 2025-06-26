@@ -90,7 +90,7 @@ export const ThemedTextInput = React.forwardRef<TextInput, Props>(
 
 	//On retourne tout les autres paramètres qu'on ne touche pas dans la balise.
 	//Pas tout tout compris
-	return ( <TextInput ref={ref} style={[styles[variant ?? "paragraph"], {color: colors[color ?? "subtitlesParags"]}, style]} {...rest}/> );
+	return ( <TextInput ref={ref} maxLength={22} style={[styles[variant ?? "paragraph"], {color: colors[color ?? "subtitlesParags"]}, style]} {...rest}/> );
 });
 
 ThemedTextInput.displayName = "ThemedTextInput";

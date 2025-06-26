@@ -3,13 +3,13 @@ import { ThemedText } from '@/components/ThemedText';
 import { ThemedTextInput } from '@/components/ThemedTextInput';
 import { useThemeColors } from '@/hooks/useThemeColors';
 import * as ImagePicker from 'expo-image-picker';
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { FlatList, Image, Modal, Pressable, TouchableOpacity, TouchableWithoutFeedback, View } from 'react-native';
 
 import { ThemedNumberInput } from '@/components/ThemedNumberInput';
 import { modProductModal } from '@/constants/styles';
 import { showErrorToast } from '@/constants/Toasts';
-import { Product } from '@/constants/types';
+import { RefreshContext } from '@/contexts/HomeRefreshContext';
 import dataAcess from '@/services/database/dataAccess';
 import { Ionicons } from '@expo/vector-icons';
 import { useSQLiteContext } from 'expo-sqlite';
@@ -20,16 +20,17 @@ import RenderUnitBtn from '../RenderUnitBtn';
 
 type RenderingProps = {
 
-	visibility: boolean,
-	setModalVisibility: React.Dispatch<React.SetStateAction<boolean>>,
-	productActionName: string,
-	setForceRefresh: React.Dispatch<React.SetStateAction<boolean>>,
+	visibility: string | null,
+	openModal: (name: ModalName) => void,
+	closeModal: () => void,
 
 }
 
-export default function RenderModProductModal({ visibility, setModalVisibility, productActionName, setForceRefresh }: RenderingProps) {
+export default function RenderModProductModal({ visibility, openModal, closeModal }: RenderingProps) {
 	
 	const colors = useThemeColors();
+	const db = useSQLiteContext();
+	const {homeDataListRef} = useContext(RefreshContext)!;
 
 	const [product, setProduct] = useState<Product | null>(null);
 	const [productName, setProductName] = useState<string | undefined>(undefined);
@@ -39,7 +40,6 @@ export default function RenderModProductModal({ visibility, setModalVisibility, 
 	const units = ["u", "Kg", "g", "L"];
 	const [unitSelected, setUnitSelected] = useState<string | undefined>(undefined);
 	
-	const db = useSQLiteContext();
 
 	const styles = modProductModal(colors);
 
@@ -80,11 +80,11 @@ export default function RenderModProductModal({ visibility, setModalVisibility, 
 
 	useEffect(() => {
 
-		dataAcess.products.readProduct(db, productActionName)
+		dataAcess.products.readProduct(db, global.activeProductName)
 		.then(cat => setProduct(cat))
 		.catch((error) => showErrorToast(error.message));
 
-	}, [product, productActionName]);
+	}, [product, global.activeProductName]);
 
 	
 	if (!product) {
@@ -97,21 +97,21 @@ export default function RenderModProductModal({ visibility, setModalVisibility, 
 	
 			<Modal 
 
-				visible={visibility}
+				visible={visibility === "ModProduct"}
 				animationType='fade'
 				transparent
-				onRequestClose={() => setModalVisibility(false)}
+				onRequestClose={closeModal}
 				statusBarTranslucent // important pour Android 11+
 
 				>
 				{/*Le pressable est la zone de détection de fermeture et le TouchableWFeed c'est pour empécher la propagation de la zone de détection. C'est comme une "intersection"*/}
-				<Pressable style={styles.modal} onPress={() => setModalVisibility(false)}>
+				<Pressable style={styles.modal} onPress={closeModal}>
 
 					<TouchableWithoutFeedback>
 						<View style={styles.modalContainer}>
 
 							<ThemedText variant='popupTitle' color='titlesVisuals'>Modifications</ThemedText>
-							<ThemedText variant='paragraphPopup' color='contrasts'>{productActionName}</ThemedText>
+							<ThemedText variant='paragraphPopup' color='contrasts'>{global.activeProductName}</ThemedText>
 							<TouchableOpacity style={styles.imagePicker} onPress={pickImage}>
 
 							{(!("isFooter" in product) && product.image_src && !imageUri) ? 
@@ -173,12 +173,13 @@ export default function RenderModProductModal({ visibility, setModalVisibility, 
 								dataAcess.products.modifyProduct(db, product, productName!, nbStock!, unitSelected!, imageUri)
 								.then(() => {
 									
-									setModalVisibility(false);
+									closeModal();
 									setImageUri(null);
 									setProductName(undefined);
 									setNbStock(undefined);
 									setUnitSelected(undefined);
-									setForceRefresh(true);
+									homeDataListRef.current?.fetchDataList();
+
 
 								})
 								.catch((error) => showErrorToast(error.message));

@@ -1,5 +1,4 @@
 import { useThemeColors } from '@/hooks/useThemeColors'
-import global from '@/utils/global'
 import { MaterialIcons } from '@expo/vector-icons'
 import React from 'react'
 import { Dimensions, StyleSheet, TouchableOpacity } from 'react-native'

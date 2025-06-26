@@ -1,3 +1,7 @@
+
+import ModalsRoot from "@/components/rendering/ModalsRoot";
+import HomeRefreshProvider from "@/contexts/HomeRefreshContext";
+import { ModalsProvider } from "@/contexts/ModalsContext";
 import { Stack } from "expo-router";
 import * as ScreenOrientation from 'expo-screen-orientation';
 import { SQLiteProvider } from "expo-sqlite";
@@ -18,19 +22,24 @@ export default function RootLayout() {
 			databaseName="appBase.db"
 			assetSource={{ assetId: require('@/assets/database/appBase.db') }}
 		>
-        <Stack
-        
-          screenOptions={{
+        <ModalsProvider>
+          <HomeRefreshProvider>
 
-            headerShown: false,
+            <ModalsRoot/>
+            <Stack
+          
+              screenOptions={{
 
-            //On force les themes du fait que l'on en ai qu'un
-            statusBarStyle: "light"
-            //statusBarStyle: (useColorScheme() ?? "dark") === "dark" ? "light" : "dark"
+                headerShown: false,
+                statusBarStyle: "light" //On force les themes du fait que l'on en ai qu'un
+                //statusBarStyle: (useColorScheme() ?? "dark") === "dark" ? "light" : "dark"
 
-          }}
-        
-        />
+              }}
+          
+            />
+            
+          </HomeRefreshProvider>
+        </ModalsProvider>
         
     </SQLiteProvider>
   

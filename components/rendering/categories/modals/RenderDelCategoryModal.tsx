@@ -11,13 +11,12 @@ import { isTablet } from 'react-native-device-info';
 
 type RenderingProps = {
 
-	visibility: boolean,
-	setModalVisibility: React.Dispatch<React.SetStateAction<boolean>>,
-	categoryName: string,
-	setForceRefresh: React.Dispatch<React.SetStateAction<boolean>>,
+	visibility: string | null,
+	openModal: (name: ModalName) => void,
+	closeModal: () => void,
 }
 
-export default function RenderDelCategoryModal({ visibility, setModalVisibility, categoryName, setForceRefresh }: RenderingProps) {
+export default function RenderDelCategoryModal({ visibility, openModal, closeModal }: RenderingProps) {
 	
 	const colors = useThemeColors();
 	
@@ -29,31 +28,31 @@ export default function RenderDelCategoryModal({ visibility, setModalVisibility,
 
 		<Modal 
 
-			visible={visibility}
+			visible={visibility === "DelCategory"}
 			animationType='fade'
 			transparent
-			onRequestClose={() => setModalVisibility(false)}
+			onRequestClose={closeModal}
 			statusBarTranslucent // important pour Android 11+
 			
 		>
 			{/*Le pressable est la zone de détection de fermeture et le TouchableWFeed c'est pour empécher la propagation de la zone de détection. C'est comme une "intersection"*/}
-			<Pressable style={styles.modal} onPress={() => setModalVisibility(false)}>
+			<Pressable style={styles.modal} onPress={closeModal}>
 
 				<TouchableWithoutFeedback>
 					<View style={styles.modalContainer}>
 
 						<ThemedText style={{marginBottom: "5%", textAlign: "center"}} variant='popupTitle' color='titlesVisuals'>
 							
-							Voulez-vous vraiment supprimer la catégorie {!isTablet() && "\n"}&quot;<ThemedText  variant='popupTitle' color='contrasts'>{categoryName}</ThemedText>&quot; ?
+							Voulez-vous vraiment supprimer la catégorie {!isTablet() && "\n"}&quot;<ThemedText  variant='popupTitle' color='contrasts'>{global.activeCategoryName}</ThemedText>&quot; ?
 						
 						</ThemedText>
 						<TouchableOpacity style={styles.delButton} onPress={async () => {
 
-							dataAcess.categories.deleteCategory(db, categoryName)
+							dataAcess.categories.deleteCategory(db, global.activeCategoryName)
 							.then(() => {
 								
-								setModalVisibility(false)
-								setForceRefresh(true);
+								closeModal();
+								global.forceRefresh = true;
 								
 							});
 

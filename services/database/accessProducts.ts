@@ -1,18 +1,16 @@
 
-import { Product } from '@/constants/types';
 import fileManager from '@/services/files/fileManager';
-import global from "@/utils/global";
 import * as SQLite from 'expo-sqlite';
 
 
-export async function addProduct(db: SQLite.SQLiteDatabase, name: string, nbStock: string = "0", unitSelected: string, imgPickerSrc: string | null){
+export async function addProduct(db: SQLite.SQLiteDatabase, name: string, nbStock: string = "0", unitSelected: string, parentId: number, imgPickerSrc?: string | null){
 
 	if (!name) throw new Error("Le nom doit être rempli");
 	if (!unitSelected) throw new Error("L'unité doit être remplie");
 	
 
 	let fields = ['name', 'stock', 'unit', "category_id"];
-	let values: any[] = [name, nbStock, unitSelected, global.activeCategoryId];
+	let values: any[] = [name, nbStock, unitSelected, parentId.toString()];
 	let placeholders = ["?", "?", "?", "?"];
 
 	const localImgSrc = imgPickerSrc && await fileManager.products.saveProductImage(imgPickerSrc, name);

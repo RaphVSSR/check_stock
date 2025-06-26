@@ -4,36 +4,37 @@ import { ThemedTextInput } from '@/components/ThemedTextInput';
 import { useThemeColors } from '@/hooks/useThemeColors';
 import { Ionicons } from '@expo/vector-icons';
 import * as ImagePicker from 'expo-image-picker';
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { Dimensions, FlatList, Image, Modal, Pressable, TouchableOpacity, TouchableWithoutFeedback, View } from 'react-native';
 
 import { ThemedNumberInput } from '@/components/ThemedNumberInput';
 import { addProductModal } from '@/constants/styles';
 import { showErrorToast } from '@/constants/Toasts';
+import { RefreshContext } from '@/contexts/HomeRefreshContext';
 import dataAcess from '@/services/database/dataAccess';
-import global from "@/utils/global";
 import { useSQLiteContext } from 'expo-sqlite';
 import Toast, { BaseToastProps } from 'react-native-toast-message';
 import RenderUnitBtn from '../RenderUnitBtn';
 
 type RenderingProps = {
 
-	visibility: boolean,
-	setModalVisibility: React.Dispatch<React.SetStateAction<boolean>>,
-	setForceRefresh: React.Dispatch<React.SetStateAction<boolean>>,
+	visibility: string | null,
+	openModal: (name: ModalName) => void,
+	closeModal: () => void,
 }
 
-export default function RenderAddProductModal({ visibility, setModalVisibility, setForceRefresh }: RenderingProps) {
+export default function RenderAddProductModal({ visibility, openModal, closeModal }: RenderingProps) {
 	
 	const colors = useThemeColors();
+	const db = useSQLiteContext();
+	const {historyListCategories, setHistoryListCategories, homeDataListRef} = useContext(RefreshContext)!;
+	
 	const [productName, setProductName] = useState<string | undefined>(undefined);
 	const [nbStock, setNbStock] = useState<string | undefined>(undefined);
 	const [imageUri, setImageUri] = useState<string | null>(null);
-
+	
 	const units = ["u", "Kg", "g", "L"];
 	const [unitSelected, setUnitSelected] = useState<string>(units[0]);
-	
-	const db = useSQLiteContext();
 
 	const styles = addProductModal(colors);
 
@@ -78,15 +79,15 @@ export default function RenderAddProductModal({ visibility, setModalVisibility, 
 
 		<Modal 
 
-			visible={visibility}
+			visible={visibility === "AddProduct"}
 			animationType='fade'
 			transparent
-			onRequestClose={() => setModalVisibility(false)}
+			onRequestClose={closeModal}
 			statusBarTranslucent // important pour Android 11+
 			
 		>
 			{/*Le pressable est la zone de détection de fermeture et le TouchableWFeed c'est pour empécher la propagation de la zone de détection. C'est comme une "intersection"*/}
-			<Pressable style={styles.modal} onPress={() => setModalVisibility(false)}>
+			<Pressable style={styles.modal} onPress={closeModal}>
 
 				<TouchableWithoutFeedback>
 					<View style={styles.modalContainer}>
@@ -149,16 +150,14 @@ export default function RenderAddProductModal({ visibility, setModalVisibility, 
 
 						<TouchableOpacity style={styles.addButton} onPress={async () => {
 
-							dataAcess.products.addProduct(db, productName!, nbStock, unitSelected, imageUri)
+							dataAcess.products.addProduct(db, productName!, nbStock, unitSelected, historyListCategories[historyListCategories.length -1].id, imageUri)
 							.then(() => {
 								
-								setModalVisibility(false);
+								closeModal();
 								setImageUri(null);
 								setProductName(undefined);
 								setNbStock(undefined);
-								
-								global.forceCountRefresh = true;
-								setForceRefresh(true);
+								homeDataListRef.current?.fetchDataList();
 
 							})
 							.catch((error) => showErrorToast(error.message));

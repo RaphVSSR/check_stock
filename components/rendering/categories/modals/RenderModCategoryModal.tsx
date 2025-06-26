@@ -1,7 +1,6 @@
 
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedTextInput } from '@/components/ThemedTextInput';
-import { Category } from '@/constants/types';
 import { useThemeColors } from '@/hooks/useThemeColors';
 import * as ImagePicker from 'expo-image-picker';
 import React, { useEffect, useState } from 'react';
@@ -11,22 +10,19 @@ import { modCategoryModal } from '@/constants/styles';
 import { showErrorToast } from '@/constants/Toasts';
 import dataAcess from '@/services/database/dataAccess';
 import { Ionicons } from '@expo/vector-icons';
-import * as ScreenOrientation from 'expo-screen-orientation';
 import { useSQLiteContext } from 'expo-sqlite';
-import { isLandscapeSync } from 'react-native-device-info';
 import Toast, { BaseToastProps } from 'react-native-toast-message';
 
 
 type RenderingProps = {
 
-	visibility: boolean,
-	setModalVisibility: React.Dispatch<React.SetStateAction<boolean>>,
-	categoryActionName: string,
-	setForceRefresh: React.Dispatch<React.SetStateAction<boolean>>,
+	visibility: string | null,
+	openModal: (name: ModalName) => void,
+	closeModal: () => void,
 
 }
 
-export default function RenderModCategoryModal({ visibility, setModalVisibility, categoryActionName, setForceRefresh }: RenderingProps) {
+export default function RenderModCategoryModal({ visibility, openModal, closeModal}: RenderingProps) {
 	
 	const colors = useThemeColors();
 	const [category, setCategory] = useState<Category | null>(null);
@@ -77,11 +73,11 @@ export default function RenderModCategoryModal({ visibility, setModalVisibility,
 
 	useEffect(() => {
 
-		dataAcess.categories.readCategory(db, categoryActionName)
+		dataAcess.categories.readCategory(db, global.activeCategoryName)
 		.then(cat => setCategory(cat))
 		.catch((error) => showErrorToast(error.message));
 
-	}, [category, categoryActionName]);
+	}, [category, global.activeCategoryName]);
 
 	if (!category) {
 		return null;
@@ -91,21 +87,21 @@ export default function RenderModCategoryModal({ visibility, setModalVisibility,
 	
 			<Modal 
 	
-				visible={visibility}
+				visible={visibility === "ModCategory"}
 				animationType='fade'
 				transparent
-				onRequestClose={() => setModalVisibility(false)}
+				onRequestClose={closeModal}
 				statusBarTranslucent // important pour Android 11+
 				
 			>
 				{/*Le pressable est la zone de détection de fermeture et le TouchableWFeed c'est pour empécher la propagation de la zone de détection. C'est comme une "intersection"*/}
-				<Pressable style={styles.modal} onPress={() => setModalVisibility(false)}>
+				<Pressable style={styles.modal} onPress={closeModal}>
 
 					<TouchableWithoutFeedback>
 						<View style={styles.modalContainer}>
 
 							<ThemedText variant='popupTitle' color='titlesVisuals'>Modifications</ThemedText>
-							<ThemedText variant='paragraphPopup' color='contrasts'>{categoryActionName}</ThemedText>
+							<ThemedText variant='paragraphPopup' color='contrasts'>{global.activeCategoryName}</ThemedText>
 							<TouchableOpacity style={styles.imagePicker} onPress={pickImage}>
 
 								{(!("isFooter" in category) && category.image_src && !imageUri) ? 
@@ -132,11 +128,11 @@ export default function RenderModCategoryModal({ visibility, setModalVisibility,
 								dataAcess.categories.modifyCategory(db, category, categoryName!, imageUri)
 								.then(() => {
 									
-									setModalVisibility(false);
+									closeModal();
 									setCategoryName(undefined);
 									setImageUri(null);
 									setCategory(null);
-									setForceRefresh(true);
+									global.forceRefresh = true;
 								
 								})
 								.catch((error) => showErrorToast(error.message));

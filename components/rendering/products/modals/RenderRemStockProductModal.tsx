@@ -3,31 +3,32 @@
 import { ThemedText } from '@/components/ThemedText';
 import { useThemeColors } from '@/hooks/useThemeColors';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { Modal, Pressable, TouchableOpacity, TouchableWithoutFeedback, View } from 'react-native';
 
 import { ThemedNumberInput } from '@/components/ThemedNumberInput';
 import { setStockProductModal } from '@/constants/styles';
 import { showErrorToast } from '@/constants/Toasts';
+import { RefreshContext } from '@/contexts/HomeRefreshContext';
 import dataAcess from '@/services/database/dataAccess';
 import { useSQLiteContext } from 'expo-sqlite';
 import Toast, { BaseToastProps } from 'react-native-toast-message';
 
 type RenderingProps = {
 
-	visibility: boolean,
-	setModalVisibility: React.Dispatch<React.SetStateAction<boolean>>,
-	setForceRefresh: React.Dispatch<React.SetStateAction<boolean>>,
-	productActionName: string,
+	visibility: string | null,
+	openModal: (name: ModalName) => void,
+	closeModal: () => void,
 
 }
 
-export default function RenderRemStockProductModal({ visibility, setModalVisibility, setForceRefresh, productActionName }: RenderingProps) {
+export default function RenderRemStockProductModal({ visibility, openModal, closeModal }: RenderingProps) {
 	
 	const colors = useThemeColors();
-	const [nbRemStock, setNbRemStock] = useState<number>(0);
-	
 	const db = useSQLiteContext();
+	const {homeDataListRef} = useContext(RefreshContext)!;
+
+	const [nbRemStock, setNbRemStock] = useState<number>(0);
 
 	const styles = setStockProductModal(colors);
 
@@ -63,20 +64,20 @@ export default function RenderRemStockProductModal({ visibility, setModalVisibil
 
 		<Modal 
 
-			visible={visibility}
+			visible={visibility === "RemStockProduct"}
 			animationType='fade'
 			transparent
-			onRequestClose={() => setModalVisibility(false)}
+			onRequestClose={closeModal}
 			statusBarTranslucent // important pour Android 11+
 			
 		>
 			{/*Le pressable est la zone de détection de fermeture et le TouchableWFeed c'est pour empécher la propagation de la zone de détection. C'est comme une "intersection"*/}
-			<Pressable style={styles.modal} onPress={() => setModalVisibility(false)}>
+			<Pressable style={styles.modal} onPress={closeModal}>
 
 				<TouchableWithoutFeedback>
 					<View style={styles.modalContainer}>
 
-						<ThemedText style={{marginRight: 10}} variant='popupTitle' color='titlesVisuals'>Retrait <ThemedText variant='popupTitle' color='contrasts'>{productActionName}</ThemedText></ThemedText>
+						<ThemedText style={{marginRight: 10}} variant='popupTitle' color='titlesVisuals'>Retrait <ThemedText variant='popupTitle' color='contrasts'>{global.activeProductName}</ThemedText></ThemedText>
 
 						<View style={styles.inputContainer}>
 
@@ -119,11 +120,12 @@ export default function RenderRemStockProductModal({ visibility, setModalVisibil
 
 						<TouchableOpacity style={styles.submitButton} onPress={async () => {
 
-							dataAcess.products.remStockProduct(db, nbRemStock, productActionName)
+							dataAcess.products.remStockProduct(db, nbRemStock, global.activeProductName)
 							.then(() => {
 								
-								setModalVisibility(false);
-								setForceRefresh(true);
+								closeModal();
+								setNbRemStock(0);
+								homeDataListRef.current?.fetchDataList();
 
 							})
 							.catch((error) => showErrorToast(error.message));

@@ -2,7 +2,7 @@
 
   "name": "Check&Stock",
   "slug": "check_stock",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "orientation": "portrait",
   "icon": "./assets/images/icons/icone_base.png",
   "scheme": "checkstock",
@@ -38,7 +38,7 @@
     [
       "expo-screen-orientation",
       {
-        "initialOrientation": "DEFAULT"
+        "initialOrientation": "PORTRAIT_UP"
       }
     ],
     "expo-font",

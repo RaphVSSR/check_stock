@@ -1,20 +1,41 @@
 
-import { Category } from '@/constants/types';
 import fileManager from '@/services/files/fileManager';
 import * as SQLite from 'expo-sqlite';
 
 
-export async function addCategory(db: SQLite.SQLiteDatabase, name: string, imgPickerSrc: string | null){
+export async function readCategories(db: SQLite.SQLiteDatabase): Promise<Category[]>{
+
+	const stmt = await db.prepareAsync(`SELECT * FROM "Categories"`);
+
+	try {
+
+		const result = await stmt.executeAsync();
+
+		return await result.getAllAsync() as Category[];
+		
+	} catch (error) {
+		
+		console.error(`Error to read the "Categories" table: `, error);
+		throw error;
+
+	}finally{
+
+		await stmt.finalizeAsync();
+	}
+
+}
+
+export async function addCategory(db: SQLite.SQLiteDatabase, name: string, parentId:number, imgPickerSrc?: string | null){
 
 	if (!name) throw new Error("Le nom doit être rempli");
 	
 
-	let fields = ['name'];
-	let values: any = [name];
-	let placeholders = ["?"];
+	let fields = ['name', "parent_id"];
+	let values: any = [name, parentId.toString()];
+	let placeholders = ["?", "?"];
 
 	const localImgSrc = imgPickerSrc && await fileManager.categories.saveCategoryImage(imgPickerSrc, name);
-
+	
 	if (imgPickerSrc){
 		
 		fields.push("'image_src'");
@@ -46,28 +67,6 @@ export async function addCategory(db: SQLite.SQLiteDatabase, name: string, imgPi
 
 		await stmt.finalizeAsync();
 	}
-}
-
-export async function readCategories(db: SQLite.SQLiteDatabase): Promise<Category[]>{
-
-	const stmt = await db.prepareAsync(`SELECT * FROM "Categories"`);
-
-	try {
-
-		const result = await stmt.executeAsync();
-
-		return await result.getAllAsync() as Category[];
-		
-	} catch (error) {
-		
-		console.error(`Error to read the "Categories" table: `, error);
-		throw error;
-
-	}finally{
-
-		await stmt.finalizeAsync();
-	}
-
 }
 
 export async function readCategory(db: SQLite.SQLiteDatabase, name: string): Promise<Category>{
