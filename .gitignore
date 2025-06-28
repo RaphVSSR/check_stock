@@ -38,3 +38,6 @@ yarn-error.*
 *.tsbuildinfo
 
 app-example
+
+assets/images/logo_entreprise.png
+assets/images/icons/icone_base.png

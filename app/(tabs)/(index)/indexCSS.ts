@@ -48,6 +48,17 @@ export default (colors:any) => StyleSheet.create({
 
     },
 
+    logoPlaceholder: {
+
+      width: width * 0.45,
+      height: height * 0.2,
+      justifyContent: "center",
+      alignItems: "center",
+      backgroundColor: colors["contrasts"],
+      borderRadius: 100,
+
+    },
+
     formContainer: {
 
       flex: 1/3,

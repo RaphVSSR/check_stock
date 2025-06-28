@@ -4,7 +4,7 @@
   "slug": "check_stock",
   "version": "1.2.0",
   "orientation": "portrait",
-  "icon": "./assets/images/icons/icone_base.png",
+  "icon": "./assets/images/icons/icone_base_placeholder.png",
   "scheme": "checkstock",
   "userInterfaceStyle": "automatic",
   "newArchEnabled": true,
@@ -14,7 +14,7 @@
   },
   "android": {
     "adaptiveIcon": {
-      "foregroundImage": "./assets/images/icons/icone_base.png",
+      "foregroundImage": "./assets/images/icons/icone_base_placeholder.png",
       "backgroundColor": "#1E1E1E"
     },
     "edgeToEdgeEnabled": true,
@@ -31,7 +31,7 @@
     [
       "expo-splash-screen",
       {
-        "image": "./assets/images/icons/icone_base.png",
+        "image": "./assets/images/icons/icone_base_placeholder.png",
         "backgroundColor": "#1E1E1E"
       }
     ],

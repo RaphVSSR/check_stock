@@ -6,7 +6,7 @@ import { useFonts } from "expo-font";
 import { useFocusEffect, useRouter } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
 import React, { useCallback, useEffect, useState } from "react";
-import { Image, SafeAreaView, TouchableOpacity, View } from "react-native";
+import { SafeAreaView, TouchableOpacity, View } from "react-native";
 import { RFValue } from "react-native-responsive-fontsize";
 import style from "./indexCSS";
 
@@ -21,6 +21,7 @@ export default function Index() {
   
   });
   const [appIsReady, setAppIsReady] = useState(false);
+  const [enterpriseAssetsExists, setEnterpriseAssetsExists] = useState<boolean | null>(null);
 
   //const [user, setUser] = useState("");
   //const [pass, setPass] = useState("");
@@ -90,13 +91,10 @@ export default function Index() {
         <View style={styles.contentWrapper}>
 
           <View style={styles.logoView}>
-
-            <Image 
-
-              style={styles.logo}
-              source={require("@/assets/images/logo_entreprise.png")}
             
-            />
+            {/*<Image style={styles.logo} source={require("@/assets/images/logo_entreprise.png")}/>*/}
+
+            <View style={styles.logoPlaceholder}><ThemedText variant="title" color="background">Logo</ThemedText></View>
 
           </View>
 
