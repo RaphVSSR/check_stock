@@ -21,7 +21,6 @@ export default function Index() {
   
   });
   const [appIsReady, setAppIsReady] = useState(false);
-  const [enterpriseAssetsExists, setEnterpriseAssetsExists] = useState<boolean | null>(null);
 
   //const [user, setUser] = useState("");
   //const [pass, setPass] = useState("");

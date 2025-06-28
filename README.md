@@ -1,8 +1,18 @@
-# Check&Stock
+<h1 style="text-align: center; margin: 50px auto 30px auto; font-size: 50px">Check&Stock</h1>
+<div style="display: flex; justify-content: center; gap: 20px;">
+   <img style="width: 40px;" src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/react/react-original.svg" />
+   <img style="width: 40px;" src="https://img.icons8.com/?size=100&id=7ImWFDcPfSlz&format=png&color=ffffff" />
+   <img style="width: 40px;" src="https://devicon-website.vercel.app/api/typescript/original.svg"></img>
+   <img style="width: 40px;" src="https://devicon-website.vercel.app/api/sqlite/original.svg"></img>
+</div>
+
+
+<br>
 
 ## 📋 Description
 
 **Check&Stock** est une application mobile professionnelle de gestion de stocks développée avec React Native et Expo. L'application permet aux gérants d'entreprise de gérer leur inventaire de manière numérique et portable, évitant ainsi la gestion manuelle sur papier.
+<br><br>
 
 ## 🎯 Concept et Problématique
 
@@ -15,6 +25,7 @@
 - **Application mobile** : Interface intuitive et portable
 - **Gestion numérique** : Stockage sécurisé et synchronisé
 - **Interface adaptée** : Design actuellement conçu pour le métier de boulanger
+<br><br>
 
 ## 🚀 Fonctionnalités Principales
 
@@ -41,24 +52,7 @@
 - **Navigation intuitive** : Interface tactile et responsive
 - **Images personnalisées** : Support des images pour catégories et produits
 - **Orientation portrait** : Optimisé pour l'utilisation en entreprise
-
-## 🛠️ Architecture Technique
-
-### 📱 Technologies Utilisées
-
-#### Framework Principal
-- **React Native** (v0.79.4) : Framework de développement mobile cross-platform
-- **Expo** (v53.0.12) : Plateforme de développement et déploiement
-- **TypeScript** (v5.8.3) : Typage statique pour la robustesse du code
-
-#### Navigation et Routing
-- **Expo Router** (v5.1.0) : Système de navigation basé sur les fichiers
-- **React Navigation** (v7.1.6) : Bibliothèque de navigation native
-
-#### Base de Données
-- **Expo SQLite** (v15.2.12) : Base de données locale embarquée
-- **SQLite** : Moteur de base de données relationnelle
-
+<br><br>
 
 ## 🚀 Installation et Configuration
 
@@ -95,6 +89,7 @@
    # Web
    expo run:web
    ```
+<br>
 
 ## 📱 Déploiement
 
@@ -141,6 +136,7 @@ Le projet utilise **EAS Build** pour la compilation et le déploiement :
    eas submit --platform android
    eas submit --platform ios
    ```
+<br>
 
 ## 📊 Métriques et Performance
 
@@ -154,6 +150,7 @@ Le projet utilise **EAS Build** pour la compilation et le déploiement :
 - **Android** : API 21+ (Android 5.0+)
 - **iOS** : iOS 13+
 - **Tablettes** : Support complet<br><br>
+<br>
 
 # 📈 Roadmap
 
