@@ -1,12 +1,12 @@
-<h1 style="text-align: center; margin: 50px auto 30px auto; font-size: 50px">Check&Stock</h1>
-<div style="display: flex; justify-content: center; gap: 20px;">
-   <img style="width: 40px;" src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/react/react-original.svg" />
-   <img style="width: 40px;" src="https://img.icons8.com/?size=100&id=7ImWFDcPfSlz&format=png&color=ffffff" />
-   <img style="width: 40px;" src="https://devicon-website.vercel.app/api/typescript/original.svg"></img>
+<br>
+<h1 align="center" style="margin: 50px auto 30px auto; font-size: 50px">Check&Stock</h1>
+<br>
+<div align="center">
+   <img style="width: 40px;" src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/react/react-original.svg" />&emsp;
+   <img style="width: 40px;" src="https://img.icons8.com/?size=100&id=7ImWFDcPfSlz&format=png&color=ffffff" />&emsp;
+   <img style="width: 40px;" src="https://devicon-website.vercel.app/api/typescript/original.svg"></img>&emsp;
    <img style="width: 40px;" src="https://devicon-website.vercel.app/api/sqlite/original.svg"></img>
 </div>
-
-
 <br>
 
 ## 📋 Description
@@ -150,7 +150,6 @@ Le projet utilise **EAS Build** pour la compilation et le déploiement :
 - **Android** : API 21+ (Android 5.0+)
 - **iOS** : iOS 13+
 - **Tablettes** : Support complet<br><br>
-<br>
 
 # 📈 Roadmap
 
