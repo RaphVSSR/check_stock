@@ -166,4 +166,4 @@ Le projet utilise **EAS Build** pour la compilation et le déploiement :
 
 ### 🔑 Licence
 
-Ce projet est sous licence [TYPE_DE_LICENCE]. Voir le fichier `LICENSE` pour plus de détails.
+Ce projet est sous licence AGPL-3.0. Voir le fichier `LICENSE` pour plus de détails.
